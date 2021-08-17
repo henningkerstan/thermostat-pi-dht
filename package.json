@@ -15,6 +15,9 @@
     "prepare": "husky install",
     "license-checker": "npx license-checker --summary --production --unknown --onlyAllow \"Apache-2.0;MIT;BSD;ISC\""
   },
+  "bin": {
+    "thermostat": "./lib/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com//henningkerstan/thermostat-pi-dht.git"
