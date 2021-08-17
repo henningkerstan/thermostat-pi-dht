@@ -36,7 +36,7 @@ in your project's directory.
 
 ## 3. Usage
 ### 3.1 Standalone application
-Once the package is installed, the standalone application `thermostat-dht-pi` requires a configuration file `config.json` which you can place anywhere. Here is an example:
+Once the package is installed, the standalone application `thermostat-dht-pi` requires a JSON configuration. The default location is `/etc/thermostat-dht-pi/config.json`.  Here is an example for such a configuration file:
 ```JSON
 {
   "sensorWarmUpTime": 4,
@@ -52,7 +52,14 @@ Once the package is installed, the standalone application `thermostat-dht-pi` re
   ]
 }
 ```
-
+Once created, you can start the application with
+```
+sudo thermostat-pi-dht
+```
+if you have used the default location or alternatively with
+```
+sudo thermostat-pi-dht /path/to/config.json
+```
 
 
 ### 3.2 Use the Thermostat class in your own application

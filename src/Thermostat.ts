@@ -34,7 +34,7 @@ import { ThermostatData } from './ThermostatData'
  * Note that this implementation uses a *common measuring loop* for all configured thermostats, hence the [[samplingInterval]] as well as the measurement [[timeout]] is configured globally (i.e. as static variables).
  *
  * ## Power rail activation/deactivation
- * The implementation optionally supports a (common) *power rail activation/deactivation*: If a [[sensorPowerPin]] is specified, power to the DHT sensors will be switched on prior to a measurement and switched off after measurements finished (or timed out). The [[warmupTime]] determines, how long (in seconds) the software will wait until starting a measurement after power has been activated.
+ * The implementation optionally supports a (common) *power rail activation/deactivation*: If a [[sensorPowerPin]] is specified, power to the DHT sensors will be switched on prior to a measurement and switched off after measurements finished (or timed out). The [[sensorWarmUpTime]] determines, how long (in seconds) the software will wait until starting a measurement after power has been activated.
  *
  * ## Heartbeat (LED) GPIO
  * The implementation also supports a (common) *heartbeat LED*: if a [[heartbeatPin]] is specified, the LED will be pulsed regularly to indicate that at least one thermostat is currently active.

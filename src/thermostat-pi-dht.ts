@@ -88,7 +88,7 @@ function loadConfiguration(): boolean {
 
   if (args.length > 1) {
     console.log(
-      'Usage: "thermostat-pi-dht" or "thermostat-pi-dht /path/to/config.json".\n\n If called without path, the "config.json" must be placed in "/etc/thermostat-pi-dht/config.json". Note that this program requires super user privileges to access the GPIOs.'
+      'Usage: "thermostat-pi-dht" or "thermostat-pi-dht /path/to/config.json".\n\nIf called without path, the "config.json" must be placed in "/etc/thermostat-pi-dht/config.json". Note that this program requires super user privileges to access the GPIOs.'
     )
     exit(-1)
   }
