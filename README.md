@@ -1,5 +1,5 @@
 # thermostat-pi-dht
-A library to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. 
+A Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. 
 
 
 ## Table of Contents
@@ -12,26 +12,54 @@ A library to control a heating system with a Raspberry Pi using DHT11 or DHT22/A
 
 
 ## 1. Description 
-Tbd
+This package contains a Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. 
+
+- The standalone application can be used to control a heating system and access its configuration via a simple, JSON-based web-API.
+- The library can be used to implement the thermostat functionality in a larger application.
 
 ## 2. Installation
-This library is available as a Node.js-module. You can thus use Node.js' package manager `npm` to install the latest production version from the [npm registry](https://npmjs.com) by executing
+This framework is available as a Node.js-module. You can thus use Node.js' package manager `npm` to install the latest production version from the [npm registry](https://npmjs.com). Depending on your use case, the installation method differs slightly. 
 
-    npm i thermostat-pi-dht
+### 2.1 Standalone application
+For using the standalone application it is best to install the package globally by running the following command.
 
-in your Node.js project's repository. This will automatically also install the following dependencies.
+    sudo npm i -g thermostat-pi-dht
 
-Name | Description | License
----|---|---
-[pigpio](https://www.npmjs.com/package/pigpio) | A Node.js wrapper for the pigpio C library. | [MIT](https://github.com/fivdi/pigpio/blob/master/LICENSE)
-[pigpio-dht](https://www.npmjs.com/package/pigpio-dht) | A Node.js implementation for DHT11 and DHT22/AM2302 sensor using pigpio. | ISC 
+
+### 2.2 Library 
+For using the standalone application it is best to install the package locally by running the following command
+
+    sudo npm i thermostat-pi-dht
+
+in your project's directory.
+
 
 ## 3. Usage
+### 3.1 Standalone application
+Once the package is installed, the standalone application `thermostat-dht-pi` requires a configuration file `config.json` which you can place anywhere. Here is an example:
+```JSON
+{
+  "sensorWarmUpTime": 4,
+  "samplingInterval": 10,
+  "sensorPowerPin": 8,
+  "heartbeatPin": 7,
+  "host": "0.0.0.0",
+  "port": 8000,
+  "thermostats": [
+    { "id": 1, "label": "Kitchen", "sensorPin": 24, "setpoint": 18 },
+    { "id": 2, "label": "Living room", "sensorPin": 25, "actuatorPin": 11 },
+    { "id": 3, "label": "Bedroom", "sensorPin": 13, "actuatorPin": 17 },
+  ]
+}
+```
+
+
+
+### 3.2 Use the Thermostat class in your own application
 Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. 
 
 The library also comes with an online [documentation](https://henningkerstan.github.io/thermostat-pi-dht/). A good starting point for further reading is the [documentation of the Thermostat class](https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html). Moreover, as this documentation is generated from source code comments using [TypeDoc](https://typedoc.org), a supported editor (like [Visual Studio Code](https://code.visualstudio.com/)) can provide on-the-fly information on functions, parameters, etc..
 
-### 3.1 Importing the module
 To use any of the functionality we need to import the module. 
 ```typescript
 import { Thermostat } from "thermostat-pi-dht"
@@ -59,20 +87,3 @@ Copyright 2021 [Henning Kerstan](https://henningkerstan.de)
 
 SPDX-License-Identifier: Apache-2.0
 
-## Configuration (config.json)
-This software is configured using a simple JSON-file `config.json`. Here is how it should look like:
-```JSON
-{
-  "host": "0.0.0.0",
-  "port": 8000,
-  "sensorPowerPin": 8,
-  "heartbeatLedPin": 7,
-  "sensorWarmUpTime": 4,
-  "samplingInterval": 10,
-  "thermostats": [
-    { "id": 1, "label": "Kitchen", "sensorPin": 24, "setpoint": 18 },
-    { "id": 2, "label": "Living room", "sensorPin": 25, "actuatorPin": 11 },
-    { "id": 3, "label": "Bedroom", "sensorPin": 13, "actuatorPin": 17 },
-  ]
-}
-```

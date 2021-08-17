@@ -84,12 +84,23 @@ function init() {
 }
 
 function loadConfiguration(): boolean {
-  if (!fs.existsSync('config.json')) {
-    console.error('ERROR: Could not find configuration file "config.json".')
+  const args = process.argv.slice(2)
+
+  if (args.length > 1) {
+    console.log(
+      'Usage: "thermostat-pi-dht" or "thermostat-pi-dht /path/to/config.json".\n\n If called without path, the "config.json" must be placed in "/etc/thermostat-pi-dht/config.json". Note that this program requires super user privileges to access the GPIOs.'
+    )
+    exit(-1)
+  }
+
+  const configFile = args.length === 1 ? args[0] : __dirname + './config.json'
+
+  if (!fs.existsSync(configFile)) {
+    console.error(`ERROR: Could not find configuration file "${configFile}".`)
     return false
   }
 
-  const fileContent = fs.readFileSync('config.json', { encoding: 'utf8' })
+  const fileContent = fs.readFileSync(configFile, { encoding: 'utf8' })
   const config: Configuration = JSON.parse(fileContent)
 
   if (config.sensorWarmUpTime) {

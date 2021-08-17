@@ -2,4 +2,5 @@ npm
 json
 JSON
 package.json
-EnOcean
+dht
+pigpio
