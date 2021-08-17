@@ -93,7 +93,8 @@ function loadConfiguration(): boolean {
     exit(-1)
   }
 
-  const configFile = args.length === 1 ? args[0] : __dirname + './config.json'
+  const configFile =
+    args.length === 1 ? args[0] : '/etc/thermostat-pi-dht/config.json'
 
   if (!fs.existsSync(configFile)) {
     console.error(`ERROR: Could not find configuration file "${configFile}".`)
