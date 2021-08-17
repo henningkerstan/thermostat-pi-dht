@@ -23,8 +23,8 @@ in your Node.js project's repository. This will automatically also install the f
 
 Name | Description | License
 ---|---|---
-
-[Byte](https://henningkerstan.github.io/byte) | A class for simple bit manipulation. | Apache-2.0
+[pigpio](https://www.npmjs.com/package/pigpio) | A Node.js wrapper for the pigpio C library. | [MIT](https://github.com/fivdi/pigpio/blob/master/LICENSE)
+[pigpio-dht](https://www.npmjs.com/package/pigpio-dht) | A Node.js implementation for DHT11 and DHT22/AM2302 sensor using pigpio. | ISC 
 
 ## 3. Usage
 Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. 
@@ -38,16 +38,10 @@ import { Thermostat } from "thermostat-pi-dht"
 ```
 
 ### 3.2 Global configuration
-Once we have imported the module and instantiated a gateway, we can use it to listen for all incoming ERP1 telegrams.
-```typescript
-gateway.onReceivedERP1Telegram((telegram) => {
-    console.log(telegram.toString())
-})
-```
+tbd
 
 ### 3.3 Add thermostats
-The gateway will automatically interpret any received data as far as possible. Due to the EnOcean protocol, a necessary prerequisite for this is that the gateway knows the EEP of the sending device. There are two possible options to achieve this.
-
+tbd
 
 ## 4. Contributing
 Contact the main author ([Henning Kerstan](https://henningkerstan.de)) if you want to contribute. More details will be available here soon.
@@ -69,12 +63,12 @@ SPDX-License-Identifier: Apache-2.0
 This software is configured using a simple JSON-file `config.json`. Here is how it should look like:
 ```JSON
 {
-  "sensorWarmupSeconds": 4,
-  "intervalSeconds": 10,
-  "sensorPowerPin": 8,
-  "heartbeatLedPin": 7,
   "host": "0.0.0.0",
   "port": 8000,
+  "sensorPowerPin": 8,
+  "heartbeatLedPin": 7,
+  "sensorWarmUpTime": 4,
+  "samplingInterval": 10,
   "thermostats": [
     { "id": 1, "label": "Kitchen", "sensorPin": 24, "setpoint": 18 },
     { "id": 2, "label": "Living room", "sensorPin": 25, "actuatorPin": 11 },
