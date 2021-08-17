@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // Project: thermostat-pi-dht
 // File: index.ts
 //
