@@ -1,0 +1,57 @@
+{
+  "name": "thermostat-pi-dht",
+  "version": "0.0.0",
+  "description": "Control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "test": "npx jasmine-ts --config=jasmine.json",
+    "doc": "npx typedoc",
+    "build": "rimraf ./lib/ && npx tsc",
+    "all": "npm run build && npm run build && npm run doc",
+    "lint": "eslint --ignore-path .gitignore --fix src/**/*.ts spec/**/*.ts",
+    "prepublishOnly": "npm run license-checker && npm run build",
+    "version": "node .version.js",
+    "prepare": "husky install",
+    "license-checker": "npx license-checker --summary --production --unknown --onlyAllow \"Apache-2.0;MIT;BSD;ISC\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//henningkerstan/thermostat-pi-dht.git"
+  },
+  "author": "Henning Kerstan",
+  "license": "Apache-2.0",
+  "keywords": [
+    "thermostat",
+    "Raspberry Pi",
+    "DHT",
+    "heating"
+  ],
+  "dependencies": {
+    "pigpio": "^3.3.1",
+    "pigpio-dht": "^1.1.1"
+  },
+  "devDependencies": {
+    "@henningkerstan/eslint-config": "^0.0.2",
+    "@henningkerstan/prettier-config": "^1.0.0",
+    "@types/jasmine": "^3.8.2",
+    "@types/node": "^16.6.1",
+    "@types/pigpio": "^3.1.0",
+    "@types/pigpio-dht": "^1.1.0",
+    "@typescript-eslint/parser": "^4.29.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.1",
+    "jasmine": "^3.8.0",
+    "jasmine-spec-reporter": "^7.0.0",
+    "jasmine-ts": "^0.4.0",
+    "license-checker": "^25.0.1",
+    "pigpio-mock": "^0.0.1",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.2.0",
+    "typedoc": "^0.21.5",
+    "typescript": "^4.3.5"
+  },
+  "prettier": "@henningkerstan/prettier-config"
+}
