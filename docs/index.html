@@ -1,0 +1,216 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>thermostat-pi-dht - v0.0.0</title>
+	<meta name="description" content="Documentation for thermostat-pi-dht - v0.0.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">thermostat-pi-dht - v0.0.0</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>thermostat-pi-dht - v0.0.0</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#thermostat-pi-dht" id="thermostat-pi-dht" style="color: inherit; text-decoration: none;">
+					<h1>thermostat-pi-dht</h1>
+				</a>
+				<p>A library to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. </p>
+				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
+					<h2>Table of Contents</h2>
+				</a>
+				<ol>
+					<li><a href="#1-description">Description</a></li>
+					<li><a href="#2-installation">Installation</a></li>
+					<li><a href="#3-usage">Usage</a></li>
+					<li><a href="#4-contributing">Contributing</a></li>
+					<li><a href="#5-version-history">Version History</a></li>
+					<li><a href="#6-license">License</a></li>
+				</ol>
+				<a href="#1-description" id="1-description" style="color: inherit; text-decoration: none;">
+					<h2>1. Description</h2>
+				</a>
+				<p>Tbd</p>
+				<a href="#2-installation" id="2-installation" style="color: inherit; text-decoration: none;">
+					<h2>2. Installation</h2>
+				</a>
+				<p>This library is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a> by executing</p>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+</code></pre>
+				<p>in your Node.js project&#39;s repository. This will automatically also install the following dependencies.</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Description</th>
+							<th>License</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><a href="https://www.npmjs.com/package/pigpio">pigpio</a></td>
+							<td>A Node.js wrapper for the pigpio C library.</td>
+							<td><a href="https://github.com/fivdi/pigpio/blob/master/LICENSE">MIT</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://www.npmjs.com/package/pigpio-dht">pigpio-dht</a></td>
+							<td>A Node.js implementation for DHT11 and DHT22/AM2302 sensor using pigpio.</td>
+							<td>ISC</td>
+						</tr>
+				</tbody></table>
+				<a href="#3-usage" id="3-usage" style="color: inherit; text-decoration: none;">
+					<h2>3. Usage</h2>
+				</a>
+				<p>Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. </p>
+				<p>The library also comes with an online <a href="https://henningkerstan.github.io/thermostat-pi-dht/">documentation</a>. A good starting point for further reading is the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">documentation of the Thermostat class</a>. Moreover, as this documentation is generated from source code comments using <a href="https://typedoc.org">TypeDoc</a>, a supported editor (like <a href="https://code.visualstudio.com/">Visual Studio Code</a>) can provide on-the-fly information on functions, parameters, etc..</p>
+				<a href="#31-importing-the-module" id="31-importing-the-module" style="color: inherit; text-decoration: none;">
+					<h3>3.1 Importing the module</h3>
+				</a>
+				<p>To use any of the functionality we need to import the module. </p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Thermostat</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;thermostat-pi-dht&quot;</span>
+</code></pre>
+				<a href="#32-global-configuration" id="32-global-configuration" style="color: inherit; text-decoration: none;">
+					<h3>3.2 Global configuration</h3>
+				</a>
+				<p>tbd</p>
+				<a href="#33-add-thermostats" id="33-add-thermostats" style="color: inherit; text-decoration: none;">
+					<h3>3.3 Add thermostats</h3>
+				</a>
+				<p>tbd</p>
+				<a href="#4-contributing" id="4-contributing" style="color: inherit; text-decoration: none;">
+					<h2>4. Contributing</h2>
+				</a>
+				<p>Contact the main author (<a href="https://henningkerstan.de">Henning Kerstan</a>) if you want to contribute. More details will be available here soon.</p>
+				<p>This project uses <a href="https://semver.org/">semantic versioning</a>. However, despite most of the API being ready, note that since we are still in development (version 0.x.y), anything may yet change at any time. </p>
+				<p>For detailed information on the (minimal) required versions, have a look at the <a href="https://github.com/henningkerstan/enocean-core/blob/main/package.json">package.json</a>.</p>
+				<a href="#5-version-history" id="5-version-history" style="color: inherit; text-decoration: none;">
+					<h2>5. Version history</h2>
+				</a>
+				<p>As this library has not yet fully matured (version is still &lt; 1.0.0), please have a look at the git commit log for a version history.</p>
+				<a href="#6-license" id="6-license" style="color: inherit; text-decoration: none;">
+					<h2>6. License</h2>
+				</a>
+				<p>Copyright 2021 <a href="https://henningkerstan.de">Henning Kerstan</a></p>
+				<p>SPDX-License-Identifier: Apache-2.0</p>
+				<a href="#configuration-configjson" id="configuration-configjson" style="color: inherit; text-decoration: none;">
+					<h2>Configuration (config.json)</h2>
+				</a>
+				<p>This software is configured using a simple JSON-file <code>config.json</code>. Here is how it should look like:</p>
+				<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.0.0.0&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8000</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorPowerPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;heartbeatLedPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorWarmUpTime&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;samplingInterval&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;thermostats&quot;</span><span style="color: #000000">: [</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Kitchen&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">24</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;setpoint&quot;</span><span style="color: #000000">: </span><span style="color: #098658">18</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Living room&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">25</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Bedroom&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">17</span><span style="color: #000000"> },</span>
+<span style="color: #000000">  ]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/Configuration.html">Configuration</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/Delay.html">Delay</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/SensorType.html">Sensor<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/Thermostat.html">Thermostat</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/ThermostatConfiguration.html">Thermostat<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/ThermostatData.html">Thermostat<wbr>Data</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
