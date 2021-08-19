@@ -17,6 +17,19 @@ This package contains a Node.js framework (standalone application + library) to 
 - The standalone application can be used to control a heating system and access its configuration via a simple, JSON-based web-API.
 - The library can be used to implement the thermostat functionality in a larger application.
 
+In both cases, multiple thermostats can be specified. Once activated, a thermostat regularly measures the current temperature (and relative humidity). It then activates or deactivates the  actuator GPIO (which in turn should control the heating, e.g. by using a relay) by comparing the current temperature with the given setpoint:
+- if the temperature is below the setpoint, it activates the actuator and
+- if the temperature is equal to or above the setpoint, it deactivates the actuator.
+
+### Common measuring loop
+Note that this implementation uses a *common measuring loop* for all configured thermostats, hence the sampling interval as well as the measurement timeout is configured globally.
+
+### Power rail activation/deactivation
+The implementation optionally supports a (common) *power rail activation/deactivation*: If a sensor power pin is specified, power to the DHT sensors will be switched on prior to a measurement and switched off after measurements finished (or timed out). The sensor warm-up time determines, how long (in seconds) the software will wait until starting a measurement after power has been activated.
+
+### Heartbeat (LED) GPIO
+The implementation also supports a (common) *heartbeat LED*: if a heartbeat pin is specified, the LED will be pulsed regularly to indicate that at least one thermostat is currently active.
+
 ## 2. Installation
 This framework is available as a Node.js-module. You can thus use Node.js' package manager `npm` to install the latest production version from the [npm registry](https://npmjs.com). Depending on your use case, the installation method differs slightly. 
 
@@ -52,7 +65,9 @@ Once the package is installed, the standalone application `thermostat-dht-pi` re
   ]
 }
 ```
-Once created, you can start the application with
+The parameters `host` and `port` determine on which address(es) and port the web API will be available. In the example, `0.0.0.0` means that the program will listen to any request directed to the server on the specified port `8000`. For a detailed explanation of the other parameters have a look at the [online documentation of the Thermostat class](https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html). 
+
+Once the configuration is created, you can start the application with
 ```
 sudo thermostat-pi-dht
 ```
@@ -60,23 +75,21 @@ if you have used the default location or alternatively with
 ```
 sudo thermostat-pi-dht /path/to/config.json
 ```
+If the configuration file is ok, the program will start and you will be able to access the data via the web API. Let us assume that your program is running on a Raspberry Pi with IP address `192.168.1.123` and the above config. Then
+- the measured thermostat data is available (as JSON data) at `http://192.168.1.123:8000/data.json` and
+- the configuration data is available at `https://192.168.1.123:8000/config.json`.
 
 
-### 3.2 Use the Thermostat class in your own application
+### 3.2 Use the library in your own application
 Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. 
 
 The library also comes with an online [documentation](https://henningkerstan.github.io/thermostat-pi-dht/). A good starting point for further reading is the [documentation of the Thermostat class](https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html). Moreover, as this documentation is generated from source code comments using [TypeDoc](https://typedoc.org), a supported editor (like [Visual Studio Code](https://code.visualstudio.com/)) can provide on-the-fly information on functions, parameters, etc..
 
-To use any of the functionality we need to import the module. 
+All major functionality is contained in the [Thermostat class](https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html), hence you will most likely only need to import this class:
 ```typescript
 import { Thermostat } from "thermostat-pi-dht"
 ```
-
-### 3.2 Global configuration
-tbd
-
-### 3.3 Add thermostats
-tbd
+and then create an instance of that class for each thermostat you require. Have a look at the [source code of the standalone application](https://github.com/henningkerstan/thermostat-pi-dht/blob/main/src/thermostat-pi-dht.ts) and the [documentation of the Thermostat class](https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html) to see how it works in detail.
 
 ## 4. Contributing
 Contact the main author ([Henning Kerstan](https://henningkerstan.de)) if you want to contribute. More details will be available here soon.
