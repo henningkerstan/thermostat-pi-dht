@@ -49,7 +49,7 @@ in your project's directory.
 
 ## 3. Usage
 ### 3.1 Standalone application
-Once the package is installed, the standalone application `thermostat-dht-pi` requires a JSON configuration. The default location is `/etc/thermostat-dht-pi/config.json`.  Here is an example for such a configuration file:
+Once the package is installed, the standalone application `thermostat-pi-dht` requires a JSON configuration. The default location is `/etc/thermostat-pi-dht/config.json`.  Here is an example for such a configuration file:
 ```JSON
 {
   "sensorWarmUpTime": 4,

@@ -61,7 +61,7 @@
 				<a href="#thermostat-pi-dht" id="thermostat-pi-dht" style="color: inherit; text-decoration: none;">
 					<h1>thermostat-pi-dht</h1>
 				</a>
-				<p>A library to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. </p>
+				<p>A Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. </p>
 				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
 					<h2>Table of Contents</h2>
 				</a>
@@ -76,52 +76,87 @@
 				<a href="#1-description" id="1-description" style="color: inherit; text-decoration: none;">
 					<h2>1. Description</h2>
 				</a>
-				<p>Tbd</p>
+				<p>This package contains a Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. </p>
+				<ul>
+					<li>The standalone application can be used to control a heating system and access its configuration via a simple, JSON-based web-API.</li>
+					<li>The library can be used to implement the thermostat functionality in a larger application.</li>
+				</ul>
+				<p>In both cases, multiple thermostats can be specified. Once activated, a thermostat regularly measures the current temperature (and relative humidity). It then activates or deactivates the  actuator GPIO (which in turn should control the heating, e.g. by using a relay) by comparing the current temperature with the given setpoint:</p>
+				<ul>
+					<li>if the temperature is below the setpoint, it activates the actuator and</li>
+					<li>if the temperature is equal to or above the setpoint, it deactivates the actuator.</li>
+				</ul>
+				<a href="#common-measuring-loop" id="common-measuring-loop" style="color: inherit; text-decoration: none;">
+					<h3>Common measuring loop</h3>
+				</a>
+				<p>Note that this implementation uses a <em>common measuring loop</em> for all configured thermostats, hence the sampling interval as well as the measurement timeout is configured globally.</p>
+				<a href="#power-rail-activationdeactivation" id="power-rail-activationdeactivation" style="color: inherit; text-decoration: none;">
+					<h3>Power rail activation/deactivation</h3>
+				</a>
+				<p>The implementation optionally supports a (common) <em>power rail activation/deactivation</em>: If a sensor power pin is specified, power to the DHT sensors will be switched on prior to a measurement and switched off after measurements finished (or timed out). The sensor warm-up time determines, how long (in seconds) the software will wait until starting a measurement after power has been activated.</p>
+				<a href="#heartbeat-led-gpio" id="heartbeat-led-gpio" style="color: inherit; text-decoration: none;">
+					<h3>Heartbeat (LED) GPIO</h3>
+				</a>
+				<p>The implementation also supports a (common) <em>heartbeat LED</em>: if a heartbeat pin is specified, the LED will be pulsed regularly to indicate that at least one thermostat is currently active.</p>
 				<a href="#2-installation" id="2-installation" style="color: inherit; text-decoration: none;">
 					<h2>2. Installation</h2>
 				</a>
-				<p>This library is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a> by executing</p>
-				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+				<p>This framework is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a>. Depending on your use case, the installation method differs slightly. </p>
+				<a href="#21-standalone-application" id="21-standalone-application" style="color: inherit; text-decoration: none;">
+					<h3>2.1 Standalone application</h3>
+				</a>
+				<p>For using the standalone application it is best to install the package globally by running the following command.</p>
+				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> -</span><span style="color: #001080">g</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
 </code></pre>
-				<p>in your Node.js project&#39;s repository. This will automatically also install the following dependencies.</p>
-				<table>
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Description</th>
-							<th>License</th>
-						</tr>
-					</thead>
-					<tbody><tr>
-							<td><a href="https://www.npmjs.com/package/pigpio">pigpio</a></td>
-							<td>A Node.js wrapper for the pigpio C library.</td>
-							<td><a href="https://github.com/fivdi/pigpio/blob/master/LICENSE">MIT</a></td>
-						</tr>
-						<tr>
-							<td><a href="https://www.npmjs.com/package/pigpio-dht">pigpio-dht</a></td>
-							<td>A Node.js implementation for DHT11 and DHT22/AM2302 sensor using pigpio.</td>
-							<td>ISC</td>
-						</tr>
-				</tbody></table>
+				<a href="#22-library" id="22-library" style="color: inherit; text-decoration: none;">
+					<h3>2.2 Library</h3>
+				</a>
+				<p>For using the standalone application it is best to install the package locally by running the following command</p>
+				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+</code></pre>
+				<p>in your project&#39;s directory.</p>
 				<a href="#3-usage" id="3-usage" style="color: inherit; text-decoration: none;">
 					<h2>3. Usage</h2>
 				</a>
+				<a href="#31-standalone-application" id="31-standalone-application" style="color: inherit; text-decoration: none;">
+					<h3>3.1 Standalone application</h3>
+				</a>
+				<p>Once the package is installed, the standalone application <code>thermostat-pi-dht</code> requires a JSON configuration. The default location is <code>/etc/thermostat-pi-dht/config.json</code>.  Here is an example for such a configuration file:</p>
+				<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorWarmUpTime&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;samplingInterval&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorPowerPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;heartbeatPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.0.0.0&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8000</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;thermostats&quot;</span><span style="color: #000000">: [</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Kitchen&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">24</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;setpoint&quot;</span><span style="color: #000000">: </span><span style="color: #098658">18</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Living room&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">25</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Bedroom&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">17</span><span style="color: #000000"> },</span>
+<span style="color: #000000">  ]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>The parameters <code>host</code> and <code>port</code> determine on which address(es) and port the web API will be available. In the example, <code>0.0.0.0</code> means that the program will listen to any request directed to the server on the specified port <code>8000</code>. For a detailed explanation of the other parameters have a look at the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">online documentation of the Thermostat class</a>. </p>
+				<p>Once the configuration is created, you can start the application with</p>
+				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+</code></pre>
+				<p>if you have used the default location or alternatively with</p>
+				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span><span style="color: #000000"> /</span><span style="color: #001080">path</span><span style="color: #000000">/</span><span style="color: #001080">to</span><span style="color: #000000">/</span><span style="color: #001080">config</span><span style="color: #000000">.</span><span style="color: #001080">json</span>
+</code></pre>
+				<p>If the configuration file is ok, the program will start and you will be able to access the data via the web API. Let us assume that your program is running on a Raspberry Pi with IP address <code>192.168.1.123</code> and the above config. Then</p>
+				<ul>
+					<li>the measured thermostat data is available (as JSON data) at <code>http://192.168.1.123:8000/data.json</code> and</li>
+					<li>the configuration data is available at <code>https://192.168.1.123:8000/config.json</code>.</li>
+				</ul>
+				<a href="#32-use-the-library-in-your-own-application" id="32-use-the-library-in-your-own-application" style="color: inherit; text-decoration: none;">
+					<h3>3.2 Use the library in your own application</h3>
+				</a>
 				<p>Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. </p>
 				<p>The library also comes with an online <a href="https://henningkerstan.github.io/thermostat-pi-dht/">documentation</a>. A good starting point for further reading is the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">documentation of the Thermostat class</a>. Moreover, as this documentation is generated from source code comments using <a href="https://typedoc.org">TypeDoc</a>, a supported editor (like <a href="https://code.visualstudio.com/">Visual Studio Code</a>) can provide on-the-fly information on functions, parameters, etc..</p>
-				<a href="#31-importing-the-module" id="31-importing-the-module" style="color: inherit; text-decoration: none;">
-					<h3>3.1 Importing the module</h3>
-				</a>
-				<p>To use any of the functionality we need to import the module. </p>
+				<p>All major functionality is contained in the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">Thermostat class</a>, hence you will most likely only need to import this class:</p>
 				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Thermostat</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;thermostat-pi-dht&quot;</span>
 </code></pre>
-				<a href="#32-global-configuration" id="32-global-configuration" style="color: inherit; text-decoration: none;">
-					<h3>3.2 Global configuration</h3>
-				</a>
-				<p>tbd</p>
-				<a href="#33-add-thermostats" id="33-add-thermostats" style="color: inherit; text-decoration: none;">
-					<h3>3.3 Add thermostats</h3>
-				</a>
-				<p>tbd</p>
+				<p>and then create an instance of that class for each thermostat you require. Have a look at the <a href="https://github.com/henningkerstan/thermostat-pi-dht/blob/main/src/thermostat-pi-dht.ts">source code of the standalone application</a> and the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">documentation of the Thermostat class</a> to see how it works in detail.</p>
 				<a href="#4-contributing" id="4-contributing" style="color: inherit; text-decoration: none;">
 					<h2>4. Contributing</h2>
 				</a>
@@ -137,24 +172,6 @@
 				</a>
 				<p>Copyright 2021 <a href="https://henningkerstan.de">Henning Kerstan</a></p>
 				<p>SPDX-License-Identifier: Apache-2.0</p>
-				<a href="#configuration-configjson" id="configuration-configjson" style="color: inherit; text-decoration: none;">
-					<h2>Configuration (config.json)</h2>
-				</a>
-				<p>This software is configured using a simple JSON-file <code>config.json</code>. Here is how it should look like:</p>
-				<pre><code class="language-JSON"><span style="color: #000000">{</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.0.0.0&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8000</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorPowerPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;heartbeatLedPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorWarmUpTime&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;samplingInterval&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;thermostats&quot;</span><span style="color: #000000">: [</span>
-<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Kitchen&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">24</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;setpoint&quot;</span><span style="color: #000000">: </span><span style="color: #098658">18</span><span style="color: #000000"> },</span>
-<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Living room&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">25</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11</span><span style="color: #000000"> },</span>
-<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Bedroom&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">17</span><span style="color: #000000"> },</span>
-<span style="color: #000000">  ]</span>
-<span style="color: #000000">}</span>
-</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -177,6 +194,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/ThermostatData.html">Thermostat<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/index.html">index</a>
 					</li>
 				</ul>
 			</nav>

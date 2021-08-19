@@ -215,44 +215,36 @@ export class Thermostat {
 
     if (this._sensorPowerGpio) {
       // power up sensors ...
-      console.log('Powering up sensors')
       this._sensorPowerGpio.digitalWrite(1)
-      console.log(
-        'Waiting for sensors to stabilize (' + this.sensorWarmUpTime + 's)'
-      )
 
       // ... and wait for sensor warmup (at least one second)
       await delay(Math.max(1000, 1000 * this.sensorWarmUpTime))
     }
 
-    console.log('Starting measurements')
+    // start measurements
     Thermostat.remainingMeasurements = 0
     this.activeInstances.forEach((thermostat) => {
       Thermostat.remainingMeasurements++
       thermostat.sensor.read()
     })
 
-    process.stdout.write('Waiting for measurements to finish')
+    // wait for measurements to finish
     const started = Date.now()
     while (Thermostat.remainingMeasurements > 0) {
-      process.stdout.write('.')
       await delay(1000)
       const duration = (Date.now() - started) / 1000
       if (duration > this.timeout) {
-        process.stdout.write('TIMEOUT')
         break
       }
     }
-    process.stdout.write('\n')
 
     if (this._sensorPowerGpio) {
-      console.log('Powering down sensors')
+      // power down sensors
       this._sensorPowerGpio.digitalWrite(0)
     }
 
     // determine next activation of this function (at least 2s required)
     const wait = Math.max(2000, this.samplingInterval * 1000)
-    console.log('Sleeping for ' + wait / 1000 + ' seconds')
     setTimeout(this.main.bind(this), wait)
   }
 

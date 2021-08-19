@@ -75,9 +75,10 @@ function init() {
     }
   })
   server.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`)
+    console.log(`server is running on http://${host}:${port}`)
     console.log("- sensor is available on 'data.json' endpoint")
     console.log("- configuration data is available on 'config.json' endpoint")
+    console.log('STARTUP COMPLETE')
   })
 
   thermostats.forEach((thermostat) => thermostat.activate())
