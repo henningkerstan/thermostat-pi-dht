@@ -1,5 +1,5 @@
 # thermostat-pi-dht
-A Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. 
+A Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators. 
 
 
 ## Table of Contents
@@ -12,7 +12,7 @@ A Node.js framework (standalone application + library) to control a heating syst
 
 
 ## 1. Description 
-This package contains a Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM3202 sensors and GPIO actuators. 
+This package contains a Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators. 
 
 - The standalone application can be used to control a heating system and access its configuration via a simple, JSON-based web-API.
 - The library can be used to implement the thermostat functionality in a larger application.
