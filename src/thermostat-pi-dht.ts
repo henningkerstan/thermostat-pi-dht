@@ -146,7 +146,7 @@ function loadConfiguration(): boolean {
     console.log('no sensor power control (sensor power always on)')
   }
 
-  console.log('Loading thermostats')
+  console.log('loading thermostats')
   for (const r of config.thermostats) {
     if (!r.id) {
       console.warn(

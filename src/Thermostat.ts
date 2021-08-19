@@ -148,7 +148,7 @@ export class Thermostat {
   /** A number to uniquely identify a thermostat. */
   readonly id: number
 
-  /** User defined string to describe the thermostat, e.g. 'Living room'.*/
+  /** A user defined string to describe the thermostat, e.g. 'Living room'.*/
   label: string
 
   /** The desired temperature (in °C) to be maintained by the thermostat. */
@@ -170,12 +170,12 @@ export class Thermostat {
     return this._timestamp
   }
 
-  /** Temperature (in °C) of the latest measurement. */
+  /** Temperature (in °C) measured in the latest measurement. */
   get temperature(): number {
     return this._temperature
   }
 
-  /** Relative humidity (in %) of the latest measurement. */
+  /** Relative humidity (in %) measured in the latest measurement. */
   get humidity(): number {
     return this._humidity
   }

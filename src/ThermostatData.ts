@@ -15,12 +15,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/** The data describing the latest state of a thermostat (without its technical configuration). */
 export interface ThermostatData {
+  /** A number to uniquely identify a thermostat. */
   id: number
+
+  /** A user defined string to describe the thermostat, e.g. 'Living room'.*/
   label: string
+
+  /** The desired temperature (in °C) to be maintained by the thermostat. */
   setpoint: number
+
+  /** UNIX timestamp (in milliseconds) of the latest measurement. */
   timestamp: number
+
+  /** Temperature (in °C) measured in the latest measurement. */
   temperature: number
+
+  /** Relative humidity (in %) measured in the latest measurement. */
   humidity: number
+
+  /** Determines whether the heating is currently on.  */
   heatingIsOn: boolean
 }
