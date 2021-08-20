@@ -79,6 +79,25 @@ If the configuration file is ok, the program will start and you will be able to 
 - the measured thermostat data is available (as JSON data) at `http://192.168.1.123:8000/data.json` and
 - the configuration data is available at `https://192.168.1.123:8000/config.json`.
 
+Finally, if this works and you want to use the standalone app as a service, create a systemd unit `/etc/systemd/system/thermostat-pi-dht.service` file with contents
+```
+[Unit]
+Description=A Node.js app to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators.
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/thermostat-pi-dht
+
+[Install]
+WantedBy=multi-user.target
+```
+then enable and start the service with
+```
+sudo systemctl enable thermostat-pi-dht
+sudo systemctl start thermostat-pi-dht
+```
+and check with `sudo systemctl status thermostat-pi-dht` if this worked.
+
 
 ### 3.2 Use the library in your own application
 Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. 
