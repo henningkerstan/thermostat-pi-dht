@@ -27,9 +27,9 @@ import { ThermostatConfiguration } from './ThermostatConfiguration'
 let host = 'localhost'
 let port = 8000
 
-let relay8Pin = 5
+const relay8Pin = 5
 
-let thermostats: Thermostat[] = []
+const thermostats: Thermostat[] = []
 
 let server: http.Server = undefined
 
@@ -40,17 +40,17 @@ function init() {
 
   // ensure proper shutdown on signals
   process.on('SIGINT', () => {
-    shutdown('SIGINT')
+    void shutdown('SIGINT')
   })
   process.on('SIGQUIT', () => {
-    shutdown('SIGQUIT')
+    void shutdown('SIGQUIT')
   })
   process.on('SIGTERM', () => {
-    shutdown('SIGTERM')
+    void shutdown('SIGTERM')
   })
 
   process.on('SIGHUP', () => {
-    shutdown('SIGHUP')
+    void shutdown('SIGHUP')
   })
 
   // switch relay8pin to off
@@ -103,36 +103,52 @@ function loadConfiguration(): boolean {
   }
 
   const fileContent = fs.readFileSync(configFile, { encoding: 'utf8' })
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const config: Configuration = JSON.parse(fileContent)
 
   if (config.sensorWarmUpTime) {
     Thermostat.samplingInterval = config.samplingInterval
     console.log(
-      'custom sampling interval: ' + Thermostat.samplingInterval + 's'
+      'custom sampling interval: ' +
+        Thermostat.samplingInterval.toString() +
+        's'
     )
   } else {
     console.log(
-      'default sampling interval: ' + Thermostat.samplingInterval + 's'
+      'default sampling interval: ' +
+        Thermostat.samplingInterval.toString() +
+        's'
     )
   }
 
   if (config.sensorWarmUpTime) {
     Thermostat.sensorWarmUpTime = config.sensorWarmUpTime
-    console.log('custom sensor warmup: ' + Thermostat.sensorWarmUpTime + 's')
+    console.log(
+      'custom sensor warmup: ' + Thermostat.sensorWarmUpTime.toString() + 's'
+    )
   } else {
-    console.log('default sensor warmup: ' + Thermostat.sensorWarmUpTime + 's')
+    console.log(
+      'default sensor warmup: ' + Thermostat.sensorWarmUpTime.toString() + 's'
+    )
   }
 
   if (config.timeoutSeconds) {
     Thermostat.timeout = config.timeoutSeconds
-    console.log('custom (global) sensor timeout: ' + Thermostat.timeout + 's')
+    console.log(
+      'custom (global) sensor timeout: ' + Thermostat.timeout.toString() + 's'
+    )
   } else {
-    console.log('default (global) sensor timeout: ' + Thermostat.timeout + 's')
+    console.log(
+      'default (global) sensor timeout: ' + Thermostat.timeout.toString() + 's'
+    )
   }
 
   if (config.heartbeatPin) {
     Thermostat.heartbeatPin = config.heartbeatPin
-    console.log('heartbeat LED connected to pin: ' + Thermostat.heartbeatPin)
+    console.log(
+      'heartbeat LED connected to pin: ' + Thermostat.heartbeatPin.toString()
+    )
   } else {
     console.log('no heartbeat LED connected')
   }
@@ -140,7 +156,8 @@ function loadConfiguration(): boolean {
   if (config.sensorPowerPin) {
     Thermostat.sensorPowerPin = config.sensorPowerPin
     console.log(
-      'sensor power control connected to pin: ' + Thermostat.sensorPowerPin
+      'sensor power control connected to pin: ' +
+        Thermostat.sensorPowerPin.toString()
     )
   } else {
     console.log('no sensor power control (sensor power always on)')
@@ -181,7 +198,7 @@ function loadConfiguration(): boolean {
   host = config.host ? config.host : 'localhost'
   port = config.port ? config.port : 8000
 
-  console.log('listening on: ' + host + ':' + port)
+  console.log('listening on: ' + host + ':' + port.toString())
 
   return true
 }
@@ -203,7 +220,7 @@ function configurationToJSON(): Configuration {
   }
 }
 
-async function shutdown(signalName: string) {
+function shutdown(signalName: string) {
   console.log(
     'Inititiating shutdown due to received "' + signalName + '" signal'
   )

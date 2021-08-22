@@ -78,7 +78,7 @@ export class Thermostat {
   }
 
   /** The default temperature (in °C) to be maintained by a newly created thermostat, if no such value is configured on creation. */
-  public static defaultSetpoint: number = 18
+  public static defaultSetpoint = 18
 
   /** The default sensor type for a new thermostat. */
   public static defaultSensorType: SensorType = 22
@@ -86,14 +86,14 @@ export class Thermostat {
   private static remainingMeasurements = 0
 
   private static activeInstances: Map<number, Thermostat> = new Map()
-  private static nextInternalId: number = 0
+  private static nextInternalId = 0
 
   private static startHeartbeat() {
     if (!this._heartbeatGpio) {
       return
     }
 
-    this.heartbeat()
+    void this.heartbeat()
   }
 
   private static async heartbeat() {
@@ -159,7 +159,7 @@ export class Thermostat {
   /** The desired temperature (in °C) to be maintained by the thermostat. */
   set setpoint(temperature: number) {
     this._setpoint = temperature
-    this.check()
+    void this.check()
   }
 
   /** The sensor's type. Must be either 11 (DHT11) or 22 (DHT22/AM2302). */
@@ -245,6 +245,8 @@ export class Thermostat {
 
     // determine next activation of this function (at least 2s required)
     const wait = Math.max(2000, this.samplingInterval * 1000)
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setTimeout(this.main.bind(this), wait)
   }
 
@@ -261,11 +263,11 @@ export class Thermostat {
     await delay(1000)
 
     // run main loop
-    this.main()
+    void this.main()
   }
 
   // Deactivates all active thermostats at once.
-  static deactivateAll() {
+  static deactivateAll(): void {
     this._isActive = false
 
     if (this._sensorPowerGpio) {
@@ -305,7 +307,7 @@ export class Thermostat {
   private _humidity: number = undefined
 
   /** Determines whether the thermostat is active. */
-  private static _isActive: boolean = false
+  private static _isActive = false
 
   /** Determines whether the heating is currently on.  */
   private _heatingIsOn = false
@@ -318,7 +320,7 @@ export class Thermostat {
     this._temperature = Math.round(temperature * 10) / 10
     this._humidity = Math.round(humidity)
 
-    this.check()
+    void this.check()
   }
 
   /** Checks if heating needs to be switched on/off */
@@ -344,7 +346,7 @@ export class Thermostat {
   }
 
   /** Activates the thermostat. */
-  activate() {
+  activate(): void {
     // cannot activate an already active thermostat
     if (Thermostat.activeInstances.has(this.internalId)) {
       return
@@ -354,13 +356,13 @@ export class Thermostat {
     Thermostat.activeInstances.set(this.internalId, this)
 
     //activate main loop
-    Thermostat.activate()
+    void Thermostat.activate()
   }
 
   /** Deactivates the thermostat.
    * @param heatingOn Determines whether after deactivation of the thermostat the heating is off (default) or on (if set to true).
    */
-  deactivate(heatingOn = false) {
+  deactivate(heatingOn = false): void {
     // remove from list of active instances
     Thermostat.activeInstances.delete(this.internalId)
 
@@ -397,7 +399,7 @@ export class Thermostat {
     }
   }
 
-  toString() {
+  toString(): string {
     return JSON.stringify(this.toJSON())
   }
 }
