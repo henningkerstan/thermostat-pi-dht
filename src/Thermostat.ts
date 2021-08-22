@@ -109,8 +109,7 @@ export class Thermostat {
   constructor(config: ThermostatConfiguration) {
     this.internalId = Thermostat.nextInternalId++
 
-    this.id = config.id
-    this.label = config.label
+    this.name = config.name
 
     this.sensor = dht(
       config.sensorPin,
@@ -145,11 +144,8 @@ export class Thermostat {
     }
   }
 
-  /** A number to uniquely identify a thermostat. */
-  readonly id: number
-
-  /** A user defined string to describe the thermostat, e.g. 'Living room'.*/
-  label: string
+  /** A string to uniquely identify a thermostat. */
+  readonly name: string
 
   /** The desired temperature (in °C) to be maintained by the thermostat. */
   get setpoint(): number {
@@ -378,8 +374,7 @@ export class Thermostat {
 
   configurationToJSON(): ThermostatConfiguration {
     return {
-      id: this.id,
-      label: this.label,
+      name: this.name,
       sensorPin: this.sensorPin,
       sensorType: this.sensorType,
       actuatorPin: this.actuatorPin,
@@ -389,8 +384,7 @@ export class Thermostat {
 
   toJSON(): ThermostatData {
     return {
-      id: this.id,
-      label: this.label,
+      name: this.name,
       setpoint: this.setpoint,
       timestamp: this.timestamp,
       temperature: this.temperature,

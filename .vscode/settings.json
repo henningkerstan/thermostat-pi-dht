@@ -21,6 +21,7 @@
   },
 
   "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
   "spellright.language": ["en"],

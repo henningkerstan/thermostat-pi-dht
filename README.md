@@ -59,9 +59,9 @@ Once the package is installed, the standalone application `thermostat-pi-dht` re
   "host": "0.0.0.0",
   "port": 8000,
   "thermostats": [
-    { "id": 1, "label": "Kitchen", "sensorPin": 24, "setpoint": 18 },
-    { "id": 2, "label": "Living room", "sensorPin": 25, "actuatorPin": 11 },
-    { "id": 3, "label": "Bedroom", "sensorPin": 13, "actuatorPin": 17 },
+    { "name": "kitchen", "sensorPin": 24, "setpoint": 18 },
+    { "name": "living-room", "sensorPin": 25, "actuatorPin": 11 },
+    { "name": "bedroom", "sensorPin": 13, "actuatorPin": 17 },
   ]
 }
 ```

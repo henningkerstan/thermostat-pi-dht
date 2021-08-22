@@ -165,16 +165,9 @@ function loadConfiguration(): boolean {
 
   console.log('loading thermostats')
   for (const r of config.thermostats) {
-    if (!r.id) {
+    if (!r.name) {
       console.warn(
-        'WARNING: skipping thermostat without id: ' + JSON.stringify(r)
-      )
-      continue
-    }
-
-    if (!r.label) {
-      console.warn(
-        'WARNING: skipping thermostat without label: ' + JSON.stringify(r)
+        'WARNING: skipping thermostat without name: ' + JSON.stringify(r)
       )
       continue
     }

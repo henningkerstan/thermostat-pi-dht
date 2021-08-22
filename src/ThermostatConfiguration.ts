@@ -17,11 +17,8 @@
 
 /** Configuration data for a single thermostat. */
 export interface ThermostatConfiguration {
-  /** A number to uniquely identify a thermostat.  */
-  id: number
-
-  /** User defined string to describe the thermostat, e.g. 'Living room'.*/
-  label: string
+  /** A string to uniquely identify a thermostat.  */
+  name: string
 
   /** GPIO pin to which the sensor is connected. */
   sensorPin: number
