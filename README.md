@@ -69,7 +69,7 @@ Once the package is installed, the standalone application `thermostat-pi-dht` re
   "host": "0.0.0.0",
   "port": 8000,
   "sensorWarmUpTime": 4,
-  "samplingInterval": 10,
+  "samplingInterval": 60,
   "sensorPowerPin": 8,
   "heartbeatPin": 7,
 

@@ -15,9 +15,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import delay from 'delay'
 import { Gpio } from 'pigpio'
 import dht, { Dht, DhtResult } from 'pigpio-dht'
-import { delay } from './Delay'
 import { SensorType } from './SensorType'
 import { ThermostatConfiguration } from './ThermostatConfiguration'
 import { ThermostatData } from './ThermostatData'
