@@ -24,6 +24,10 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
   "spellright.language": ["en"],
   "spellright.documentTypes": ["markdown", "latex", "plaintext"],
   "spellright.ignoreRegExpsByClass": {
