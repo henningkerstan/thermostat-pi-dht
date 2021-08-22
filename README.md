@@ -37,7 +37,12 @@ The implementation also supports a (common) _heartbeat LED_: if a heartbeat pin 
 
 ## 2. Installation
 
-This framework is available as a Node.js-module. You can thus use Node.js' package manager `npm` to install the latest production version from the [npm registry](https://npmjs.com). Depending on your use case, the installation method differs slightly.
+This framework is available as a Node.js-module. You can thus use Node.js' package manager `npm` to install the latest production version from the [npm registry](https://npmjs.com). Depending on your use case, the installation method differs slightly. In both cases, however, you need to install the pigpio C library as follows (skip if you have installed it before):
+
+```bash
+sudo apt-get update
+sudo apt-get install pigpio
+```
 
 ### 2.1 Standalone application
 
