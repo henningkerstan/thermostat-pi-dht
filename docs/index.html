@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>thermostat-pi-dht - v0.0.3</title>
-	<meta name="description" content="Documentation for thermostat-pi-dht - v0.0.3">
+	<title>thermostat-pi-dht - v0.0.4</title>
+	<meta name="description" content="Documentation for thermostat-pi-dht - v0.0.4">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script async src="assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">thermostat-pi-dht - v0.0.3</a>
+					<a href="index.html" class="title">thermostat-pi-dht - v0.0.4</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -50,7 +50,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<h1>thermostat-pi-dht - v0.0.3</h1>
+			<h1>thermostat-pi-dht - v0.0.4</h1>
 		</div>
 	</div>
 </header>
@@ -61,7 +61,7 @@
 				<a href="#thermostat-pi-dht" id="thermostat-pi-dht" style="color: inherit; text-decoration: none;">
 					<h1>thermostat-pi-dht</h1>
 				</a>
-				<p>A Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators. </p>
+				<p>A Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators.</p>
 				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
 					<h2>Table of Contents</h2>
 				</a>
@@ -76,12 +76,12 @@
 				<a href="#1-description" id="1-description" style="color: inherit; text-decoration: none;">
 					<h2>1. Description</h2>
 				</a>
-				<p>This package contains a Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators. </p>
+				<p>This package contains a Node.js framework (standalone application + library) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators.</p>
 				<ul>
 					<li>The standalone application can be used to control a heating system and access its configuration via a simple, JSON-based web-API.</li>
 					<li>The library can be used to implement the thermostat functionality in a larger application.</li>
 				</ul>
-				<p>In both cases, multiple thermostats can be specified. Once activated, a thermostat regularly measures the current temperature (and relative humidity). It then activates or deactivates the  actuator GPIO (which in turn should control the heating, e.g. by using a relay) by comparing the current temperature with the given setpoint:</p>
+				<p>In both cases, multiple thermostats can be specified. Once activated, a thermostat regularly measures the current temperature (and relative humidity). It then activates or deactivates the actuator GPIO (which in turn should control the heating, e.g. by using a relay) by comparing the current temperature with the given setpoint:</p>
 				<ul>
 					<li>if the temperature is below the setpoint, it activates the actuator and</li>
 					<li>if the temperature is equal to or above the setpoint, it deactivates the actuator.</li>
@@ -101,7 +101,7 @@
 				<a href="#2-installation" id="2-installation" style="color: inherit; text-decoration: none;">
 					<h2>2. Installation</h2>
 				</a>
-				<p>This framework is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a>. Depending on your use case, the installation method differs slightly. </p>
+				<p>This framework is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a>. Depending on your use case, the installation method differs slightly.</p>
 				<a href="#21-standalone-application" id="21-standalone-application" style="color: inherit; text-decoration: none;">
 					<h3>2.1 Standalone application</h3>
 				</a>
@@ -121,22 +121,23 @@
 				<a href="#31-standalone-application" id="31-standalone-application" style="color: inherit; text-decoration: none;">
 					<h3>3.1 Standalone application</h3>
 				</a>
-				<p>Once the package is installed, the standalone application <code>thermostat-pi-dht</code> requires a JSON configuration. The default location is <code>/etc/thermostat-pi-dht/config.json</code>.  Here is an example for such a configuration file:</p>
+				<p>Once the package is installed, the standalone application <code>thermostat-pi-dht</code> requires a JSON configuration. The default location is <code>/etc/thermostat-pi-dht/config.json</code>. Here is an example for such a configuration file:</p>
 				<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.0.0.0&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8000</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorWarmUpTime&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;samplingInterval&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorPowerPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;heartbeatPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.0.0.0&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8000</span><span style="color: #000000">,</span>
+
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;thermostats&quot;</span><span style="color: #000000">: [</span>
-<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Kitchen&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">24</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;setpoint&quot;</span><span style="color: #000000">: </span><span style="color: #098658">18</span><span style="color: #000000"> },</span>
-<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Living room&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">25</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11</span><span style="color: #000000"> },</span>
-<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;id&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;label&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Bedroom&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">17</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;kitchen&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">24</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;setpoint&quot;</span><span style="color: #000000">: </span><span style="color: #098658">18</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;living-room&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">25</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">11</span><span style="color: #000000"> },</span>
+<span style="color: #000000">    { </span><span style="color: #0451A5">&quot;name&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;bedroom&quot;</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;sensorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">13</span><span style="color: #000000">, </span><span style="color: #0451A5">&quot;actuatorPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">17</span><span style="color: #000000"> },</span>
 <span style="color: #000000">  ]</span>
 <span style="color: #000000">}</span>
 </code></pre>
-				<p>The parameters <code>host</code> and <code>port</code> determine on which address(es) and port the web API will be available. In the example, <code>0.0.0.0</code> means that the program will listen to any request directed to the server on the specified port <code>8000</code>. For a detailed explanation of the other parameters have a look at the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">online documentation of the Thermostat class</a>. </p>
+				<p>The parameters <code>host</code> and <code>port</code> determine on which address(es) and port the web API will be available. In the example, <code>0.0.0.0</code> means that the program will listen to any request directed to the server on the specified port <code>8000</code>. For a detailed explanation of the other parameters have a look at the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">online documentation of the Thermostat class</a>.</p>
 				<p>Once the configuration is created, you can start the application with</p>
 				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
 </code></pre>
@@ -148,20 +149,36 @@
 					<li>the measured thermostat data is available (as JSON data) at <code>http://192.168.1.123:8000/data.json</code> and</li>
 					<li>the configuration data is available at <code>https://192.168.1.123:8000/config.json</code>.</li>
 				</ul>
+				<p>Finally, if this works and you want to use the standalone app as a service, create a systemd unit <code>/etc/systemd/system/thermostat-pi-dht.service</code> file with contents</p>
+				<pre><code><span style="color: #000000">[</span><span style="color: #001080">Unit</span><span style="color: #000000">]</span>
+<span style="color: #001080">Description</span><span style="color: #000000">=</span><span style="color: #0070C1">A</span><span style="color: #000000"> </span><span style="color: #001080">Node</span><span style="color: #000000">.</span><span style="color: #001080">js</span><span style="color: #000000"> </span><span style="color: #001080">app</span><span style="color: #000000"> </span><span style="color: #001080">to</span><span style="color: #000000"> </span><span style="color: #001080">control</span><span style="color: #000000"> </span><span style="color: #001080">a</span><span style="color: #000000"> </span><span style="color: #001080">heating</span><span style="color: #000000"> </span><span style="color: #001080">system</span><span style="color: #000000"> </span><span style="color: #AF00DB">with</span><span style="color: #000000"> </span><span style="color: #001080">a</span><span style="color: #000000"> </span><span style="color: #001080">Raspberry</span><span style="color: #000000"> </span><span style="color: #001080">Pi</span><span style="color: #000000"> </span><span style="color: #001080">using</span><span style="color: #000000"> </span><span style="color: #0070C1">DHT11</span><span style="color: #000000"> </span><span style="color: #001080">or</span><span style="color: #000000"> </span><span style="color: #0070C1">DHT22</span><span style="color: #000000">/</span><span style="color: #0070C1">AM2302</span><span style="color: #000000"> </span><span style="color: #001080">sensors</span><span style="color: #000000"> </span><span style="color: #001080">and</span><span style="color: #000000"> </span><span style="color: #0070C1">GPIO</span><span style="color: #000000"> </span><span style="color: #001080">actuators</span><span style="color: #000000">.</span>
+
+<span style="color: #000000">[</span><span style="color: #001080">Service</span><span style="color: #000000">]</span>
+<span style="color: #001080">Type</span><span style="color: #000000">=</span><span style="color: #001080">simple</span>
+<span style="color: #001080">ExecStart</span><span style="color: #000000">=/</span><span style="color: #001080">usr</span><span style="color: #000000">/</span><span style="color: #001080">local</span><span style="color: #000000">/</span><span style="color: #001080">bin</span><span style="color: #000000">/</span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+
+<span style="color: #000000">[</span><span style="color: #001080">Install</span><span style="color: #000000">]</span>
+<span style="color: #001080">WantedBy</span><span style="color: #000000">=</span><span style="color: #001080">multi</span><span style="color: #000000">-</span><span style="color: #001080">user</span><span style="color: #000000">.</span><span style="color: #001080">target</span>
+</code></pre>
+				<p>then enable and start the service with</p>
+				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">systemctl</span><span style="color: #000000"> </span><span style="color: #001080">enable</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+<span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">systemctl</span><span style="color: #000000"> </span><span style="color: #001080">start</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
+</code></pre>
+				<p>and check with <code>sudo systemctl status thermostat-pi-dht</code> if this worked.</p>
 				<a href="#32-use-the-library-in-your-own-application" id="32-use-the-library-in-your-own-application" style="color: inherit; text-decoration: none;">
 					<h3>3.2 Use the library in your own application</h3>
 				</a>
-				<p>Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages. </p>
+				<p>Since this framework is written in TypeScript, you can use it both with TypeScript as well as with plain JavaScript. Below you can find short examples to get you started in both languages.</p>
 				<p>The library also comes with an online <a href="https://henningkerstan.github.io/thermostat-pi-dht/">documentation</a>. A good starting point for further reading is the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">documentation of the Thermostat class</a>. Moreover, as this documentation is generated from source code comments using <a href="https://typedoc.org">TypeDoc</a>, a supported editor (like <a href="https://code.visualstudio.com/">Visual Studio Code</a>) can provide on-the-fly information on functions, parameters, etc..</p>
 				<p>All major functionality is contained in the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">Thermostat class</a>, hence you will most likely only need to import this class:</p>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Thermostat</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;thermostat-pi-dht&quot;</span>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Thermostat</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;thermostat-pi-dht&#039;</span>
 </code></pre>
 				<p>and then create an instance of that class for each thermostat you require. Have a look at the <a href="https://github.com/henningkerstan/thermostat-pi-dht/blob/main/src/thermostat-pi-dht.ts">source code of the standalone application</a> and the <a href="https://henningkerstan.github.io/thermostat-pi-dht/classes/Thermostat.Thermostat-1.html">documentation of the Thermostat class</a> to see how it works in detail.</p>
 				<a href="#4-contributing" id="4-contributing" style="color: inherit; text-decoration: none;">
 					<h2>4. Contributing</h2>
 				</a>
 				<p>Contact the main author (<a href="https://henningkerstan.de">Henning Kerstan</a>) if you want to contribute. More details will be available here soon.</p>
-				<p>This project uses <a href="https://semver.org/">semantic versioning</a>. However, despite most of the API being ready, note that since we are still in development (version 0.x.y), anything may yet change at any time. </p>
+				<p>This project uses <a href="https://semver.org/">semantic versioning</a>. However, despite most of the API being ready, note that since we are still in development (version 0.x.y), anything may yet change at any time.</p>
 				<p>For detailed information on the (minimal) required versions, have a look at the <a href="https://github.com/henningkerstan/enocean-core/blob/main/package.json">package.json</a>.</p>
 				<a href="#5-version-history" id="5-version-history" style="color: inherit; text-decoration: none;">
 					<h2>5. Version history</h2>
