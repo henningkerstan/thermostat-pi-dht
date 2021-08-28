@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Project: thermostat-pi-dht
-// File: index.ts
+// File: thermostat-pi-dht.ts
 //
 // Copyright 2021 Henning Kerstan
 //

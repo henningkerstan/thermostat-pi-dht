@@ -1,5 +1,5 @@
 // Project: thermostat-pi-dht
-// File: Config.ts
+// File: Configuration.ts
 //
 // Copyright 2021 Henning Kerstan
 //
