@@ -11,11 +11,9 @@
     "strictNullChecks": false,              /* Enable strict null checks. */
     "noImplicitThis": true,                
     "noImplicitOverride": true,
-    // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
     "noUnusedLocals": true,                
     "noImplicitReturns": true,             
     "noFallthroughCasesInSwitch": true,    
-    /* Module Resolution Options */
     "moduleResolution": "node",           
     "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     "skipLibCheck": true,                     
