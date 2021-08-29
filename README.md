@@ -41,7 +41,7 @@ This framework is available as a Node.js-module. You can thus use Node.js' packa
 
 ```bash
 sudo apt-get update
-sudo apt-get install pigpio
+sudo apt-get install -y pigpio
 ```
 
 ### 2.1 Standalone application

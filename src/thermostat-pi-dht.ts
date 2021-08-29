@@ -85,6 +85,9 @@ function init() {
   })
 
   thermostats.forEach((thermostat) => thermostat.activate())
+  if(heartbeatLED){
+    heartbeatLED.start()
+  }
 }
 
 function loadConfiguration(): boolean {
@@ -222,6 +225,9 @@ function shutdown(signalName: string) {
   )
 
   Thermostat.deactivateAll()
+  if(heartbeatLED){
+    heartbeatLED.stop()
+  }
   process.exit()
 }
 
