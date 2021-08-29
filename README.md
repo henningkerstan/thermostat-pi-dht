@@ -52,7 +52,7 @@ For using the standalone application it is best to install the package globally 
 
 ### 2.2 Library
 
-For using the standalone application it is best to install the package locally by running the following command
+For using the library in your own application install the package locally by running the following command
 
     sudo npm i thermostat-pi-dht
 
@@ -143,7 +143,7 @@ Contact the main author ([Henning Kerstan](https://henningkerstan.de)) if you wa
 
 This project uses [semantic versioning](https://semver.org/). However, despite most of the API being ready, note that since we are still in development (version 0.x.y), anything may yet change at any time.
 
-For detailed information on the (minimal) required versions, have a look at the [package.json](https://github.com/henningkerstan/enocean-core/blob/main/package.json).
+For detailed information on the (minimal) required versions, have a look at the [package.json](https://github.com/henningkerstan/thermostat-pi-dht/blob/main/package.json).
 
 ## 5. Version history
 

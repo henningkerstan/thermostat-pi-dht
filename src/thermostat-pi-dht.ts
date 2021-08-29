@@ -23,11 +23,14 @@ import { Thermostat } from './Thermostat'
 import { Configuration } from './Configuration'
 import * as http from 'http'
 import { ThermostatConfiguration } from './ThermostatConfiguration'
+import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
 
 let host = 'localhost'
 let port = 8000
 
 const relay8Pin = 5
+
+let heartbeatLED: HeartbeatLED
 
 const thermostats: Thermostat[] = []
 
@@ -145,9 +148,9 @@ function loadConfiguration(): boolean {
   }
 
   if (config.heartbeatPin) {
-    Thermostat.heartbeatPin = config.heartbeatPin
+    heartbeatLED = new HeartbeatLED(config.heartbeatPin)
     console.log(
-      'heartbeat LED connected to pin: ' + Thermostat.heartbeatPin.toString()
+      'heartbeat LED connected to pin: ' + config.heartbeatPin.toString()
     )
   } else {
     console.log('no heartbeat LED connected')
@@ -207,7 +210,7 @@ function configurationToJSON(): Configuration {
     sensorWarmUpTime: Thermostat.sensorWarmUpTime,
     samplingInterval: Thermostat.samplingInterval,
     sensorPowerPin: Thermostat.sensorPowerPin,
-    heartbeatPin: Thermostat.heartbeatPin,
+    heartbeatPin: heartbeatLED ? heartbeatLED.pin : undefined,
     timeoutSeconds: Thermostat.timeout,
     thermostats: thermostatConfigurations,
   }

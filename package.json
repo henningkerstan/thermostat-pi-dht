@@ -35,11 +35,13 @@
     "AM2302"
   ],
   "dependencies": {
+    "@henningkerstan/heartbeat-led-pi": "^0.0.2",
     "delay": "^5.0.0",
     "pigpio": "^3.3.1",
     "pigpio-dht": "^1.1.1"
   },
   "devDependencies": {
+    "@henningkerstan/eslint-config": "^0.0.3",
     "@henningkerstan/prettier-config": "^1.0.0",
     "@types/jasmine": "^3.8.2",
     "@types/node": "^16.7.1",

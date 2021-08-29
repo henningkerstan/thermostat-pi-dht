@@ -35,9 +35,6 @@ import { ThermostatData } from './ThermostatData'
  *
  * ## Power rail activation/deactivation
  * The implementation optionally supports a (common) *power rail activation/deactivation*: If a [[sensorPowerPin]] is specified, power to the DHT sensors will be switched on prior to a measurement and switched off after measurements finished (or timed out). The [[sensorWarmUpTime]] determines, how long (in seconds) the software will wait until starting a measurement after power has been activated.
- *
- * ## Heartbeat (LED) GPIO
- * The implementation also supports a (common) *heartbeat LED*: if a [[heartbeatPin]] is specified, the LED will be pulsed regularly to indicate that at least one thermostat is currently active.
  */
 export class Thermostat {
   /** Sampling interval (in seconds) for all thermostats.
@@ -66,17 +63,6 @@ export class Thermostat {
     })
   }
 
-  /** GPIO pin to which a "heartbeat LED" is connected. This LED will be pulsed to indicate that the software is still running. Can be undefined. */
-  public static get heartbeatPin(): number {
-    return this._heartbeatPin
-  }
-
-  /** GPIO pin to which a "heartbeat LED" is connected. This LED will be pulsed to indicate that the software is still running. Can be undefined. */
-  public static set heartbeatPin(pin: number) {
-    this._heartbeatPin = pin
-    this._heartbeatGpio = new Gpio(pin, { mode: Gpio.OUTPUT })
-  }
-
   /** The default temperature (in °C) to be maintained by a newly created thermostat, if no such value is configured on creation. */
   public static defaultSetpoint = 18
 
@@ -87,23 +73,6 @@ export class Thermostat {
 
   private static activeInstances: Map<number, Thermostat> = new Map()
   private static nextInternalId = 0
-
-  private static startHeartbeat() {
-    if (!this._heartbeatGpio) {
-      return
-    }
-
-    void this.heartbeat()
-  }
-
-  private static async heartbeat() {
-    while (this._isActive && this._heartbeatGpio) {
-      this._heartbeatGpio.digitalWrite(1)
-      await delay(10)
-      this._heartbeatGpio.digitalWrite(0)
-      await delay(2000)
-    }
-  }
 
   /** Constructs a new thermostat based on the supplied configuration. */
   constructor(config: ThermostatConfiguration) {
@@ -194,20 +163,12 @@ export class Thermostat {
   /** GPIO controlling the power supply for all connected DHT sensors. If undefined, power is assumed to be always on. */
   private static _sensorPowerGpio: Gpio = undefined
 
-  /** GPIO pin to which a "heartbeat LED" is connected. This LED will be pulsed to indicate that the software is still running. Can be undefined. */
-  private static _heartbeatPin: number = undefined
-
-  /** GPIO to which a "heartbeat LED" is connected. This LED will be pulsed to indicate that the software is still running. Can be undefined. */
-  private static _heartbeatGpio: Gpio = undefined
-
   /** The main measurement loop.*/
   private static async main() {
     // nothing to be done if not active
     if (!this._isActive) {
       return
     }
-
-    this.startHeartbeat()
 
     if (this._sensorPowerGpio) {
       // power up sensors ...
