@@ -34,6 +34,22 @@ const thermostats: Thermostat[] = []
 let server: http.Server = undefined
 
 function init() {
+  // read version number from package json
+  const packageJsonFile = __dirname + '/../package.json'
+  let version = 'Unknown'
+  if (fs.existsSync(packageJsonFile)) {
+    try {
+      const fileContent = fs.readFileSync(packageJsonFile, { encoding: 'utf8' })
+      const packageJson = <{ version?: string }>JSON.parse(fileContent)
+      if (packageJson.version) {
+        version = packageJson.version
+      }
+    } catch (error) {
+      //nothing to be done
+    }
+  }
+  console.log('thermostat-pi-dht v' + version)
+
   if (!loadConfiguration()) {
     exit(-1)
   }
@@ -78,7 +94,7 @@ function init() {
   })
 
   thermostats.forEach((thermostat) => thermostat.activate())
-  if(heartbeatLED){
+  if (heartbeatLED) {
     heartbeatLED.start()
   }
 }
@@ -211,7 +227,7 @@ function shutdown(signalName: string) {
   )
 
   Thermostat.deactivateAll()
-  if(heartbeatLED){
+  if (heartbeatLED) {
     heartbeatLED.stop()
   }
   process.exit()
