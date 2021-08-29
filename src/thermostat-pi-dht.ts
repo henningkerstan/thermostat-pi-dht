@@ -18,7 +18,6 @@
 
 import { exit } from 'process'
 import fs from 'fs'
-import { Gpio } from 'pigpio'
 import { Thermostat } from './Thermostat'
 import { Configuration } from './Configuration'
 import * as http from 'http'
@@ -27,8 +26,6 @@ import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
 
 let host = 'localhost'
 let port = 8000
-
-const relay8Pin = 5
 
 let heartbeatLED: HeartbeatLED
 
@@ -55,10 +52,6 @@ function init() {
   process.on('SIGHUP', () => {
     void shutdown('SIGHUP')
   })
-
-  // switch relay8pin to off
-  const relay8Gpio = new Gpio(relay8Pin, { mode: Gpio.OUTPUT })
-  relay8Gpio.digitalWrite(0)
 
   server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`)

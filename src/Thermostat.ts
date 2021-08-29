@@ -80,28 +80,30 @@ export class Thermostat {
 
     this.name = config.name
 
-    this.sensor = dht(
-      config.sensorPin,
-      config.sensorType ? config.sensorType : Thermostat.defaultSensorType
-    )
-    this.sensorPin = config.sensorPin
+    if (config.sensorPin) {
+      this.sensor = dht(
+        config.sensorPin,
+        config.sensorType ? config.sensorType : Thermostat.defaultSensorType
+      )
+      this.sensorPin = config.sensorPin
 
-    this.sensor.on('activate', () => {
-      // nothing to be done
-    })
-
-    this.sensor.on('badChecksum', () => {
-      this.onData(undefined, undefined)
-    })
-
-    this.sensor.on('result', (data: DhtResult) => {
-      this.onData(data.temperature, data.humidity)
-    })
-
-    this.sensor.on('end', () => {
-      // nothing to be done
-      // TODO: maybe reduce measurement counter here?
-    })
+      this.sensor.on('activate', () => {
+        // nothing to be done
+      })
+  
+      this.sensor.on('badChecksum', () => {
+        this.onData(undefined, undefined)
+      })
+  
+      this.sensor.on('result', (data: DhtResult) => {
+        this.onData(data.temperature, data.humidity)
+      })
+  
+      this.sensor.on('end', () => {
+        // nothing to be done
+        // TODO: maybe reduce measurement counter here?
+      })  
+    }
 
     this.setpoint = config.setpoint
       ? config.setpoint
@@ -110,6 +112,11 @@ export class Thermostat {
     if (config.actuatorPin) {
       this.actuator = new Gpio(config.actuatorPin, { mode: Gpio.OUTPUT })
       this.actuatorPin = config.actuatorPin
+
+      // disable actuator if no sensor is defined
+      if(!config.sensorPin){
+        this.actuator.digitalWrite(0)
+      }
     }
   }
 

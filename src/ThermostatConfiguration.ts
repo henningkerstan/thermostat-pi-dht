@@ -18,10 +18,10 @@
 /** Configuration data for a single thermostat. */
 export interface ThermostatConfiguration {
   /** A string to uniquely identify a thermostat.  */
-  name: string
+  name?: string
 
   /** GPIO pin to which the sensor is connected. */
-  sensorPin: number
+  sensorPin?: number
 
   /** The sensor's type. Must be either 11 (DHT11) or 22 (DHT22/AM2302). */
   sensorType?: number
