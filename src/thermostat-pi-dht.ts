@@ -171,13 +171,6 @@ function loadConfiguration(): boolean {
       continue
     }
 
-    if (!r.sensorPin) {
-      console.warn(
-        ' WARNING: skipping thermostat without sensorPin: ' + JSON.stringify(r)
-      )
-      continue
-    }
-
     thermostats.push(new Thermostat(r))
     console.log(' ' + JSON.stringify(r))
   }
