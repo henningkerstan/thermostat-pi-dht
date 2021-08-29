@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>thermostat-pi-dht - v0.0.4</title>
-	<meta name="description" content="Documentation for thermostat-pi-dht - v0.0.4">
+	<title>thermostat-pi-dht - v0.0.5</title>
+	<meta name="description" content="Documentation for thermostat-pi-dht - v0.0.5">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script async src="assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">thermostat-pi-dht - v0.0.4</a>
+					<a href="index.html" class="title">thermostat-pi-dht - v0.0.5</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -50,7 +50,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<h1>thermostat-pi-dht - v0.0.4</h1>
+			<h1>thermostat-pi-dht - v0.0.5</h1>
 		</div>
 	</div>
 </header>
@@ -101,7 +101,10 @@
 				<a href="#2-installation" id="2-installation" style="color: inherit; text-decoration: none;">
 					<h2>2. Installation</h2>
 				</a>
-				<p>This framework is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a>. Depending on your use case, the installation method differs slightly.</p>
+				<p>This framework is available as a Node.js-module. You can thus use Node.js&#39; package manager <code>npm</code> to install the latest production version from the <a href="https://npmjs.com">npm registry</a>. Depending on your use case, the installation method differs slightly. In both cases, however, you need to install the pigpio C library as follows (skip if you have installed it before):</p>
+				<pre><code class="language-bash"><span style="color: #000000">sudo apt-get update</span>
+<span style="color: #000000">sudo apt-get install -y pigpio</span>
+</code></pre>
 				<a href="#21-standalone-application" id="21-standalone-application" style="color: inherit; text-decoration: none;">
 					<h3>2.1 Standalone application</h3>
 				</a>
@@ -111,7 +114,7 @@
 				<a href="#22-library" id="22-library" style="color: inherit; text-decoration: none;">
 					<h3>2.2 Library</h3>
 				</a>
-				<p>For using the standalone application it is best to install the package locally by running the following command</p>
+				<p>For using the library in your own application install the package locally by running the following command</p>
 				<pre><code><span style="color: #001080">sudo</span><span style="color: #000000"> </span><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">thermostat</span><span style="color: #000000">-</span><span style="color: #001080">pi</span><span style="color: #000000">-</span><span style="color: #001080">dht</span>
 </code></pre>
 				<p>in your project&#39;s directory.</p>
@@ -126,7 +129,7 @@
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;host&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;0.0.0.0&quot;</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8000</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorWarmUpTime&quot;</span><span style="color: #000000">: </span><span style="color: #098658">4</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #0451A5">&quot;samplingInterval&quot;</span><span style="color: #000000">: </span><span style="color: #098658">10</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;samplingInterval&quot;</span><span style="color: #000000">: </span><span style="color: #098658">60</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;sensorPowerPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">8</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0451A5">&quot;heartbeatPin&quot;</span><span style="color: #000000">: </span><span style="color: #098658">7</span><span style="color: #000000">,</span>
 
@@ -179,7 +182,7 @@
 				</a>
 				<p>Contact the main author (<a href="https://henningkerstan.de">Henning Kerstan</a>) if you want to contribute. More details will be available here soon.</p>
 				<p>This project uses <a href="https://semver.org/">semantic versioning</a>. However, despite most of the API being ready, note that since we are still in development (version 0.x.y), anything may yet change at any time.</p>
-				<p>For detailed information on the (minimal) required versions, have a look at the <a href="https://github.com/henningkerstan/enocean-core/blob/main/package.json">package.json</a>.</p>
+				<p>For detailed information on the (minimal) required versions, have a look at the <a href="https://github.com/henningkerstan/thermostat-pi-dht/blob/main/package.json">package.json</a>.</p>
 				<a href="#5-version-history" id="5-version-history" style="color: inherit; text-decoration: none;">
 					<h2>5. Version history</h2>
 				</a>
