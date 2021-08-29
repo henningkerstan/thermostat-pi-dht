@@ -1,6 +1,6 @@
 {
   "name": "thermostat-pi-dht",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A Node.js framework (standalone app + lib) to control a heating system with a Raspberry Pi using DHT11 or DHT22/AM2302 sensors and GPIO actuators. ",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
