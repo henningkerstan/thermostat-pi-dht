@@ -90,19 +90,19 @@ export class Thermostat {
       this.sensor.on('activate', () => {
         // nothing to be done
       })
-  
+
       this.sensor.on('badChecksum', () => {
         this.onData(undefined, undefined)
       })
-  
+
       this.sensor.on('result', (data: DhtResult) => {
         this.onData(data.temperature, data.humidity)
       })
-  
+
       this.sensor.on('end', () => {
         // nothing to be done
         // TODO: maybe reduce measurement counter here?
-      })  
+      })
     }
 
     this.setpoint = config.setpoint
@@ -114,7 +114,7 @@ export class Thermostat {
       this.actuatorPin = config.actuatorPin
 
       // disable actuator if no sensor is defined
-      if(!config.sensorPin){
+      if (!config.sensorPin) {
         this.actuator.digitalWrite(0)
       }
     }
@@ -188,8 +188,10 @@ export class Thermostat {
     // start measurements
     Thermostat.remainingMeasurements = 0
     this.activeInstances.forEach((thermostat) => {
-      Thermostat.remainingMeasurements++
-      thermostat.sensor.read()
+      if (thermostat.sensor) {
+        Thermostat.remainingMeasurements++
+        thermostat.sensor.read()
+      }
     })
 
     // wait for measurements to finish
