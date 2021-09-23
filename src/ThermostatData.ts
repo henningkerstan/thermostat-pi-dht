@@ -24,14 +24,14 @@ export interface ThermostatData {
   setpoint: number
 
   /** UNIX timestamp (in milliseconds) of the latest measurement. */
-  timestamp: number
+  timestamp?: number
 
   /** Temperature (in °C) measured in the latest measurement. */
-  temperature: number
+  temperature?: number
 
   /** Relative humidity (in %) measured in the latest measurement. */
-  humidity: number
+  humidity?: number
 
   /** Determines whether the heating is currently on.  */
-  heatingIsOn: boolean
+  heatingIsOn?: boolean
 }

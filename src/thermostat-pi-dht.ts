@@ -23,9 +23,11 @@ import { Configuration } from './Configuration'
 import * as http from 'http'
 import { ThermostatConfiguration } from './ThermostatConfiguration'
 import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
+import { createHmac, randomBytes } from 'crypto'
 
 let host = 'localhost'
 let port = 8000
+let hmacKey: string = undefined
 
 let heartbeatLED: HeartbeatLED
 
@@ -75,14 +77,14 @@ function init() {
       case '/data.json':
         res.setHeader('Content-Type', 'application/json')
         res.writeHead(200)
-        res.end(JSON.stringify(thermostats))
+        res.end(authenticatedData(JSON.stringify(thermostats)))
         break
 
       case '/config.json':
         res.setHeader('Content-Type', 'application/json')
         res.writeHead(200)
 
-        res.end(JSON.stringify(configurationToJSON()))
+        res.end(authenticatedData(JSON.stringify(configurationToJSON())))
         break
     }
   })
@@ -97,6 +99,14 @@ function init() {
   if (heartbeatLED) {
     heartbeatLED.start()
   }
+}
+
+function authenticatedData(payload: string): string {
+  const json = { payload: payload, hmac: '' }
+  const hmac = createHmac('sha512', 'test')
+  hmac.update(payload)
+  json.hmac = hmac.digest('hex')
+  return JSON.stringify(json)
 }
 
 function loadConfiguration(): boolean {
@@ -198,6 +208,15 @@ function loadConfiguration(): boolean {
 
   host = config.host ? config.host : 'localhost'
   port = config.port ? config.port : 8000
+
+  // todo: ensure that hmacKey, if present, is sufficiently large
+  if(!config.hmacKey){
+    config.hmacKey = randomBytes(64).toString('base64');
+    fs.writeFileSync(configFile, JSON.stringify(config))
+    console.log('No HMAC key was found in configuration. A new (random) key has been added to the configuration.')
+  }
+
+  hmacKey = config.hmacKey
 
   console.log('listening on: ' + host + ':' + port.toString())
 

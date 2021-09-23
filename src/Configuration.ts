@@ -26,4 +26,5 @@ export interface Configuration {
   host?: string
   port?: number
   timeoutSeconds?: number
+  hmacKey?: string
 }
