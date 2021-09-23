@@ -103,7 +103,7 @@ function init() {
 
 function authenticatedData(payload: string): string {
   const json = { payload: payload, hmac: '' }
-  const hmac = createHmac('sha512', 'test')
+  const hmac = createHmac('sha512', hmacKey)
   hmac.update(payload)
   json.hmac = hmac.digest('hex')
   return JSON.stringify(json)
