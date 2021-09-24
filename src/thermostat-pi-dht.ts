@@ -21,35 +21,35 @@ import fs from 'fs'
 import { Thermostat } from './Thermostat'
 import { Configuration } from './Configuration'
 import * as http from 'http'
-import { ThermostatConfiguration } from './ThermostatConfiguration'
 import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
 import { createHmac, randomBytes } from 'crypto'
 
-let host = 'localhost'
-let port = 8000
-let hmacKey: string = undefined
-
+let host: string
+let port: number
+let hmacKey: Buffer = undefined
 let heartbeatLED: HeartbeatLED
-
 const thermostats: Thermostat[] = []
-
 let server: http.Server = undefined
 
-function init() {
+function readVersionFromPackageJSON(): string {
   // read version number from package json
   const packageJsonFile = __dirname + '/../package.json'
-  let version = 'Unknown'
   if (fs.existsSync(packageJsonFile)) {
     try {
       const fileContent = fs.readFileSync(packageJsonFile, { encoding: 'utf8' })
       const packageJson = <{ version?: string }>JSON.parse(fileContent)
       if (packageJson.version) {
-        version = packageJson.version
+        return packageJson.version
       }
     } catch (error) {
-      //nothing to be done
+      // nothing to be done
     }
   }
+  return '<UNKNOWN>'
+}
+
+function init() {
+  const version = readVersionFromPackageJSON()
   console.log('thermostat-pi-dht v' + version)
 
   if (!loadConfiguration()) {
@@ -66,7 +66,6 @@ function init() {
   process.on('SIGTERM', () => {
     void shutdown('SIGTERM')
   })
-
   process.on('SIGHUP', () => {
     void shutdown('SIGHUP')
   })
@@ -75,23 +74,26 @@ function init() {
     const url = new URL(req.url, `http://${req.headers.host}`)
     switch (url.pathname) {
       case '/data.json':
-        res.setHeader('Content-Type', 'application/json')
-        res.writeHead(200)
-        res.end(authenticatedData(JSON.stringify(thermostats)))
-        break
-
-      case '/config.json':
-        res.setHeader('Content-Type', 'application/json')
-        res.writeHead(200)
-
-        res.end(authenticatedData(JSON.stringify(configurationToJSON())))
+        {
+          const timestamp = Date.now()
+          const json = { timestamp: timestamp, payload: thermostats, hmac: '' }
+          const hmac = createHmac('sha512', hmacKey)
+          const hashInput = JSON.stringify({
+            timestamp: timestamp,
+            payload: thermostats,
+          })
+          hmac.update(hashInput)
+          json.hmac = hmac.digest('hex')
+          res.setHeader('Content-Type', 'application/json')
+          res.writeHead(200)
+          res.end(JSON.stringify(json))
+        }
         break
     }
   })
+
   server.listen(port, host, () => {
     console.log(`server is running on http://${host}:${port}`)
-    console.log("- sensor is available on 'data.json' endpoint")
-    console.log("- configuration data is available on 'config.json' endpoint")
     console.log('STARTUP COMPLETE')
   })
 
@@ -99,14 +101,6 @@ function init() {
   if (heartbeatLED) {
     heartbeatLED.start()
   }
-}
-
-function authenticatedData(payload: string): string {
-  const json = { payload: payload, hmac: '' }
-  const hmac = createHmac('sha512', hmacKey)
-  hmac.update(payload)
-  json.hmac = hmac.digest('hex')
-  return JSON.stringify(json)
 }
 
 function loadConfiguration(): boolean {
@@ -210,34 +204,19 @@ function loadConfiguration(): boolean {
   port = config.port ? config.port : 8000
 
   // todo: ensure that hmacKey, if present, is sufficiently large
-  if(!config.hmacKey){
-    config.hmacKey = randomBytes(64).toString('base64');
+  if (!config.hmacKey) {
+    config.hmacKey = randomBytes(64).toString('base64')
     fs.writeFileSync(configFile, JSON.stringify(config))
-    console.log('No HMAC key was found in configuration. A new (random) key has been added to the configuration.')
+    console.log(
+      'No HMAC key was found in configuration. A new (random) key has been added to the configuration.'
+    )
   }
 
-  hmacKey = config.hmacKey
+  hmacKey = Buffer.from(config.hmacKey, 'base64')
 
   console.log('listening on: ' + host + ':' + port.toString())
 
   return true
-}
-
-function configurationToJSON(): Configuration {
-  const thermostatConfigurations: ThermostatConfiguration[] = []
-  thermostats.forEach((t) => {
-    thermostatConfigurations.push(t.configurationToJSON())
-  })
-  return {
-    host: host,
-    port: port,
-    sensorWarmUpTime: Thermostat.sensorWarmUpTime,
-    samplingInterval: Thermostat.samplingInterval,
-    sensorPowerPin: Thermostat.sensorPowerPin,
-    heartbeatPin: heartbeatLED ? heartbeatLED.pin : undefined,
-    timeoutSeconds: Thermostat.timeout,
-    thermostats: thermostatConfigurations,
-  }
 }
 
 function shutdown(signalName: string) {

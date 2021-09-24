@@ -28,8 +28,14 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
-  "spellright.language": ["en"],
-  "spellright.documentTypes": ["markdown", "latex", "plaintext"],
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ],
   "spellright.ignoreRegExpsByClass": {
     "markdown": ["/&amp;/g", "/&nbsp;/g"],
     "ts": ["/eslint\\s+\\\".+\\\"/g"],
