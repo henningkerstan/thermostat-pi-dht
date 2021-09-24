@@ -15,11 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export interface ThermostatSetpointUpdateOptions {
+export interface RemoteThermostatOptions {
   host: string
   port: number
   hmacKey: Buffer
-  thermostatName: string
-  setpoint: number
-  endpoint: 'data.json' | 'config.json'
 }
