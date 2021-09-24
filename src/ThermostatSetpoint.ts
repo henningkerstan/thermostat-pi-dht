@@ -1,5 +1,5 @@
 // Project: thermostat-pi-dht
-// File: ThermostatConfiguration.ts
+// File: ThermostatSetpoint.ts
 //
 // Copyright 2021 Henning Kerstan
 //
@@ -15,19 +15,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ThermostatSetpoint } from './ThermostatSetpoint'
+/** Setpoint temperature for a thermostat. */
+export class ThermostatSetpoint {
+  /** A string to uniquely identify a thermostat.  */
+  name?: string
 
-/** Configuration data for a single thermostat. */
-export interface ThermostatConfiguration extends ThermostatSetpoint {
-  /** GPIO pin to which the sensor is connected. */
-  sensorPin?: number
-
-  /** The sensor's type. Must be either 11 (DHT11) or 22 (DHT22/AM2302). */
-  sensorType?: number
-
-  /** GPIO pin to which the actuator is connected. */
-  actuatorPin?: number
-
-  /** Hysteresis (in °C). -- NOT YET IMPLEMENTED */
-  //hysteresis?: number
+  /** The desired temperature (in °C) to be maintained by the thermostat. */
+  setpoint?: number
 }

@@ -16,6 +16,7 @@
 // limitations under the License.
 
 export { Thermostat } from './Thermostat'
+export { ThermostatSetpoint } from './ThermostatSetpoint'
 export { ThermostatConfiguration } from './ThermostatConfiguration'
 export { ThermostatData } from './ThermostatData'
 export { HMACAuthenticatedData } from './HMACAuthenticatedData'

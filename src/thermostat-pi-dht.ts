@@ -25,6 +25,7 @@ import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
 import { randomBytes } from 'crypto'
 import { HMACAuthenticatedData } from './HMACAuthenticatedData'
 import { ThermostatConfiguration } from './ThermostatConfiguration'
+import { ThermostatSetpoint } from '.'
 
 let host: string
 let port: number
@@ -32,6 +33,7 @@ let hmacKey: Buffer = undefined
 let heartbeatLED: HeartbeatLED
 const thermostats: Thermostat[] = []
 let server: http.Server = undefined
+let configFile: string
 
 function readVersionFromPackageJSON(): string {
   // read version number from package json
@@ -48,6 +50,117 @@ function readVersionFromPackageJSON(): string {
     }
   }
   return '<UNKNOWN>'
+}
+
+function handleHTTPRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse
+) {
+  const url = new URL(req.url, `http://${req.headers.host}`)
+
+  // only serve two endpoints
+  if (url.pathname !== '/data.json' && url.pathname !== '/config.json') {
+    return
+  }
+
+  res.setHeader('Content-Type', 'application/json')
+  res.writeHead(200)
+
+  // on both endpoints GETting is ok
+  if (req.method === 'GET') {
+    switch (url.pathname) {
+      case '/data.json':
+        res.end(
+          JSON.stringify(
+            HMACAuthenticatedData.authenticate(hmacKey, thermostats)
+          )
+        )
+        break
+      case '/config.json':
+        res.end(
+          JSON.stringify(
+            HMACAuthenticatedData.authenticate(hmacKey, currentConfiguration())
+          )
+        )
+    }
+  }
+
+  // on both endpoints POSTing is ok; body must contain ThermostatSetpoint encapsulated in a valid HMACAuthenticatedData
+  if (req.method === 'POST') {
+    let body = ''
+    req.on('data', (data) => {
+      body += data
+    })
+
+    req.on('end', () => {
+      console.log('Received body: ' + body)
+
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const bodyJSON: { nonce?: string; hmac?: string; payload?: unknown } =
+          JSON.parse(body)
+
+        // parse data
+        const ad = new HMACAuthenticatedData()
+        ad.payload = bodyJSON.payload
+        ad.nonce = bodyJSON.nonce
+        ad.hmac = bodyJSON.hmac
+
+        // check HMAC
+        if (!ad.validate(hmacKey)) {
+          throw new Error('HMAC invalid.')
+        }
+
+        // payload must be A ThermostatSetpoint
+        const thermostatSetpoint = <ThermostatSetpoint>ad.payload
+        if (!thermostatSetpoint.name || !thermostatSetpoint.setpoint) {
+          throw new Error('Not a valid ThermostatSetpoint')
+        }
+
+        // find matching thermostat and adjust setpoint, if found
+        let succeeded = false
+        for (const t of thermostats) {
+          if (t.name === thermostatSetpoint.name) {
+            t.setpoint = thermostatSetpoint.setpoint
+            // pretty print the JSON to the config file using 2 spaces
+            fs.writeFileSync(
+              configFile,
+              JSON.stringify(currentConfiguration(true), null, 2)
+            )
+            succeeded = true
+            break
+          }
+        }
+
+        if (!succeeded) {
+          throw new Error('Thermostat not found.')
+        }
+      } catch (error) {
+        console.warn('Invalid POST request.')
+        console.warn(error)
+      }
+
+      switch (url.pathname) {
+        case '/data.json':
+          res.end(
+            JSON.stringify(
+              HMACAuthenticatedData.authenticate(hmacKey, thermostats)
+            )
+          )
+          break
+        case '/config.json':
+          res.end(
+            JSON.stringify(
+              HMACAuthenticatedData.authenticate(
+                hmacKey,
+                currentConfiguration()
+              )
+            )
+          )
+      }
+    })
+    return
+  }
 }
 
 function init() {
@@ -72,29 +185,8 @@ function init() {
     void shutdown('SIGHUP')
   })
 
-  server = http.createServer((req, res) => {
-    const url = new URL(req.url, `http://${req.headers.host}`)
-    switch (url.pathname) {
-      case '/data.json':
-        res.setHeader('Content-Type', 'application/json')
-        res.writeHead(200)
-        res.end(
-          JSON.stringify(
-            HMACAuthenticatedData.authenticate(hmacKey, thermostats)
-          )
-        )
-
-        break
-      case '/config.json':
-        res.setHeader('Content-Type', 'application/json')
-        res.writeHead(200)
-        res.end(
-          JSON.stringify(
-            HMACAuthenticatedData.authenticate(hmacKey, currentConfiguration())
-          )
-        )
-    }
-  })
+  // create the server with two endpoints 'data.json' and 'config.json'
+  server = http.createServer(handleHTTPRequest)
 
   server.listen(port, host, () => {
     console.log(`server is running on http://${host}:${port}`)
@@ -119,7 +211,7 @@ function loadConfiguration(): boolean {
     exit(-1)
   }
 
-  const configFile =
+  configFile =
     args.length === 1 ? args[0] : '/etc/thermostat-pi-dht/config.json'
 
   if (!fs.existsSync(configFile)) {
@@ -226,8 +318,8 @@ function loadConfiguration(): boolean {
   return true
 }
 
-/** Return the current configuration without the HMAC key. */
-function currentConfiguration(): Configuration {
+/** Return the current configuration (default without the HMAC key). */
+function currentConfiguration(withHMACkey = false): Configuration {
   const thermostatConfigurations: ThermostatConfiguration[] = []
   thermostats.forEach((t) => {
     thermostatConfigurations.push(t.configurationToJSON())
@@ -241,6 +333,7 @@ function currentConfiguration(): Configuration {
     heartbeatPin: heartbeatLED ? heartbeatLED.pin : undefined,
     timeoutSeconds: Thermostat.timeout,
     thermostats: thermostatConfigurations,
+    hmacKey: withHMACkey ? hmacKey.toString('base64') : undefined,
   }
 }
 

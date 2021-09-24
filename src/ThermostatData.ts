@@ -15,14 +15,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { ThermostatSetpoint } from './ThermostatSetpoint'
+
 /** The data describing the latest state of a thermostat (without its technical configuration). */
-export interface ThermostatData {
-  /** A string to uniquely identify a thermostat. */
-  name: string
-
-  /** The desired temperature (in °C) to be maintained by the thermostat. */
-  setpoint: number
-
+export interface ThermostatData extends ThermostatSetpoint {
   /** UNIX timestamp (in milliseconds) of the latest measurement. */
   timestamp?: number
 
