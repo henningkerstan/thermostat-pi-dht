@@ -89,7 +89,9 @@ function init() {
         res.setHeader('Content-Type', 'application/json')
         res.writeHead(200)
         res.end(
-          HMACAuthenticatedData.authenticate(hmacKey, currentConfiguration())
+          JSON.stringify(
+            HMACAuthenticatedData.authenticate(hmacKey, currentConfiguration())
+          )
         )
     }
   })
