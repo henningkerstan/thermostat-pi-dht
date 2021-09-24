@@ -22,7 +22,9 @@ import { Thermostat } from './Thermostat'
 import { Configuration } from './Configuration'
 import * as http from 'http'
 import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
-import { createHmac, randomBytes } from 'crypto'
+import { randomBytes } from 'crypto'
+import { HMACAuthenticatedData } from './HMACAuthenticatedData'
+import { ThermostatConfiguration } from './ThermostatConfiguration'
 
 let host: string
 let port: number
@@ -74,26 +76,28 @@ function init() {
     const url = new URL(req.url, `http://${req.headers.host}`)
     switch (url.pathname) {
       case '/data.json':
-        {
-          const timestamp = Date.now()
-          const json = { timestamp: timestamp, payload: thermostats, hmac: '' }
-          const hmac = createHmac('sha512', hmacKey)
-          const hashInput = JSON.stringify({
-            timestamp: timestamp,
-            payload: thermostats,
-          })
-          hmac.update(hashInput)
-          json.hmac = hmac.digest('hex')
-          res.setHeader('Content-Type', 'application/json')
-          res.writeHead(200)
-          res.end(JSON.stringify(json))
-        }
+        res.setHeader('Content-Type', 'application/json')
+        res.writeHead(200)
+        res.end(
+          JSON.stringify(
+            HMACAuthenticatedData.authenticate(hmacKey, thermostats)
+          )
+        )
+
         break
+      case '/config.json':
+        res.setHeader('Content-Type', 'application/json')
+        res.writeHead(200)
+        res.end(
+          HMACAuthenticatedData.authenticate(hmacKey, currentConfiguration())
+        )
     }
   })
 
   server.listen(port, host, () => {
     console.log(`server is running on http://${host}:${port}`)
+    console.log("- sensor is available on 'data.json' endpoint")
+    console.log("- configuration data is available on 'config.json' endpoint")
     console.log('STARTUP COMPLETE')
   })
 
@@ -206,7 +210,8 @@ function loadConfiguration(): boolean {
   // todo: ensure that hmacKey, if present, is sufficiently large
   if (!config.hmacKey) {
     config.hmacKey = randomBytes(64).toString('base64')
-    fs.writeFileSync(configFile, JSON.stringify(config))
+    // pretty print the JSON to the config file using 2 spaces
+    fs.writeFileSync(configFile, JSON.stringify(config, null, 2))
     console.log(
       'No HMAC key was found in configuration. A new (random) key has been added to the configuration.'
     )
@@ -217,6 +222,24 @@ function loadConfiguration(): boolean {
   console.log('listening on: ' + host + ':' + port.toString())
 
   return true
+}
+
+/** Return the current configuration without the HMAC key. */
+function currentConfiguration(): Configuration {
+  const thermostatConfigurations: ThermostatConfiguration[] = []
+  thermostats.forEach((t) => {
+    thermostatConfigurations.push(t.configurationToJSON())
+  })
+  return {
+    host: host,
+    port: port,
+    sensorWarmUpTime: Thermostat.sensorWarmUpTime,
+    samplingInterval: Thermostat.samplingInterval,
+    sensorPowerPin: Thermostat.sensorPowerPin,
+    heartbeatPin: heartbeatLED ? heartbeatLED.pin : undefined,
+    timeoutSeconds: Thermostat.timeout,
+    thermostats: thermostatConfigurations,
+  }
 }
 
 function shutdown(signalName: string) {

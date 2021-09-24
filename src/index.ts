@@ -18,3 +18,4 @@
 export { Thermostat } from './Thermostat'
 export { ThermostatConfiguration } from './ThermostatConfiguration'
 export { ThermostatData } from './ThermostatData'
+export { HMACAuthenticatedData } from './HMACAuthenticatedData'

@@ -95,7 +95,10 @@ if you have used the default location or alternatively with
 sudo thermostat-pi-dht /path/to/config.json
 ```
 
-If the configuration file is ok, the program will start and you will be able to access the data via the web API. Let us assume that your program is running on a Raspberry Pi with IP address `192.168.1.123` and the above config. Then the measured thermostat data is available (as JSON data) at `http://192.168.1.123:8000/data.json`.
+If the configuration file is ok, the program will start and you will be able to access the data via the web API. Let us assume that your program is running on a Raspberry Pi with IP address `192.168.1.123` and the above config. Then
+
+- the measured thermostat data is available (as JSON data) at `http://192.168.1.123:8000/data.json` and
+- the configuration data is available at `https://192.168.1.123:8000/config.json`.
 
 Finally, if this works and you want to use the standalone app as a service, create a systemd unit `/etc/systemd/system/thermostat-pi-dht.service` file with contents
 
