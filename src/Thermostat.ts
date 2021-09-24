@@ -44,7 +44,7 @@ export class Thermostat {
    * - the next start of the measurement run.  */
   public static samplingInterval = 120
 
-  /** Sensor warm-up time (in seconds). */
+  /** Delay (in seconds) between sensor power on and start of measurements. */
   public static sensorWarmUpTime = 4
 
   /** Timeout after which all measurements will be stopped.  */

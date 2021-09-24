@@ -1,5 +1,5 @@
 // Project: thermostat-pi-dht
-// File: index.ts
+// File: ThermostatSetpointUpdateOptions.ts
 //
 // Copyright 2021 Henning Kerstan
 //
@@ -15,10 +15,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export { Thermostat } from './Thermostat'
-export { ThermostatSetpoint } from './ThermostatSetpoint'
-export { ThermostatSetpointUpdateOptions } from './ThermostatSetpointUpdateOptions'
-export { ThermostatConfiguration } from './ThermostatConfiguration'
-export { ThermostatData } from './ThermostatData'
-export { HMACAuthenticatedData } from './HMACAuthenticatedData'
-export { updateRemoteThermostatSetpoint } from './updateRemoteThermostatSetpoint'
+export interface ThermostatSetpointUpdateOptions {
+  host: string
+  port: number
+  thermostatName: string
+  setpoint: number
+  hmacKey: Buffer
+  endpoint: 'data.json' | 'config.json'
+}

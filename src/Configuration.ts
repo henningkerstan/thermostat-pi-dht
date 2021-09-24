@@ -17,14 +17,33 @@
 
 import { ThermostatConfiguration } from './ThermostatConfiguration'
 
+/** Configuration of the standalone app 'thermostat-pi-dht'. */
 export interface Configuration {
+  /** Delay (in seconds) between sensor power on and start of measurements. */
   sensorWarmUpTime?: number
+
+  /** Sampling interval (in seconds) for all thermostats.
+   *
+   * This is the interval ranging from
+   * - the finalization (or timeout) of a measurement run to
+   * - the next start of the measurement run.  */
   samplingInterval?: number
+
+  /** GPIO pin controlling the power supply for all connected DHT sensors. If undefined, power is assumed to be always on. */
   sensorPowerPin?: number
+
+  /** GPIO pin to which a heartbeat LED is connected. */
   heartbeatPin?: number
+
+  /** Configuration of the thermostats. */
   thermostats: ThermostatConfiguration[]
+
   host?: string
   port?: number
+
+  /** Timeout (in seconds) after which all measurements will be stopped.  */
   timeoutSeconds?: number
+
+  /** 64 byte HMAC key in base64 encoding. */
   hmacKey?: string
 }

@@ -110,7 +110,7 @@ function handleHTTPRequest(
 
         if (deviation > 2000) {
           throw new Error(
-            'Invalid nonce (deviation from current timestamp exceeds 2s).'
+            'Invalid nonce: Deviation from current timestamp exceeds 2s.'
           )
         }
 
