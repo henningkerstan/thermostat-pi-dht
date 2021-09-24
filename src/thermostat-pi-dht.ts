@@ -93,8 +93,6 @@ function handleHTTPRequest(
     })
 
     req.on('end', () => {
-      console.log('Received body: ' + body)
-
       try {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const bodyJSON: { nonce?: string; hmac?: string; payload?: unknown } =
@@ -105,6 +103,16 @@ function handleHTTPRequest(
         ad.payload = bodyJSON.payload
         ad.nonce = bodyJSON.nonce
         ad.hmac = bodyJSON.hmac
+
+        // check nonce is within 2s of my time
+        const timestamp = Date.now()
+        const deviation = Math.abs(timestamp - parseInt(ad.nonce))
+
+        if (deviation > 2000) {
+          throw new Error(
+            'Invalid nonce (deviation from current timestamp exceeds 2s).'
+          )
+        }
 
         // check HMAC
         if (!ad.validate(hmacKey)) {
