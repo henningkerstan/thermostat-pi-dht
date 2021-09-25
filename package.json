@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "@henningkerstan/heartbeat-led-pi": "^0.0.2",
+    "@henningkerstan/hmac-authenticated-payload": "^0.0.2",
     "delay": "^5.0.0",
     "pigpio": "^3.3.1",
     "pigpio-dht": "^1.1.1"

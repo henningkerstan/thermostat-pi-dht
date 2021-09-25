@@ -23,7 +23,7 @@ import { Configuration } from './Configuration'
 import * as http from 'http'
 import { HeartbeatLED } from '@henningkerstan/heartbeat-led-pi'
 import { randomBytes } from 'crypto'
-import { HMACAuthenticatedData } from './HMACAuthenticatedData'
+import { HMACAuthenticatedPayload } from '@henningkerstan/hmac-authenticated-payload'
 import { ThermostatConfiguration } from './ThermostatConfiguration'
 import { ThermostatSetpoint } from '.'
 
@@ -71,15 +71,13 @@ function handleHTTPRequest(
     switch (url.pathname) {
       case '/data.json':
         res.end(
-          JSON.stringify(
-            HMACAuthenticatedData.authenticate(hmacKey, thermostats)
-          )
+          JSON.stringify(HMACAuthenticatedPayload.create(hmacKey, thermostats))
         )
         break
       case '/config.json':
         res.end(
           JSON.stringify(
-            HMACAuthenticatedData.authenticate(hmacKey, currentConfiguration())
+            HMACAuthenticatedPayload.create(hmacKey, currentConfiguration())
           )
         )
     }
@@ -99,10 +97,11 @@ function handleHTTPRequest(
           JSON.parse(body)
 
         // parse data
-        const ad = new HMACAuthenticatedData()
-        ad.payload = bodyJSON.payload
-        ad.nonce = bodyJSON.nonce
-        ad.hmac = bodyJSON.hmac
+        const ad = new HMACAuthenticatedPayload(
+          bodyJSON.payload,
+          bodyJSON.nonce,
+          bodyJSON.hmac
+        )
 
         // check nonce is within 2s of my time
         const timestamp = Date.now()
@@ -152,17 +151,14 @@ function handleHTTPRequest(
         case '/data.json':
           res.end(
             JSON.stringify(
-              HMACAuthenticatedData.authenticate(hmacKey, thermostats)
+              HMACAuthenticatedPayload.create(hmacKey, thermostats)
             )
           )
           break
         case '/config.json':
           res.end(
             JSON.stringify(
-              HMACAuthenticatedData.authenticate(
-                hmacKey,
-                currentConfiguration()
-              )
+              HMACAuthenticatedPayload.create(hmacKey, currentConfiguration())
             )
           )
       }

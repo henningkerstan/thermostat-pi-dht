@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { HMACAuthenticatedData } from './HMACAuthenticatedData'
+import { HMACAuthenticatedPayload } from '@henningkerstan/hmac-authenticated-payload'
 import { httpGetJSON } from './httpGetJSON'
 import { RemoteThermostatOptions } from './RemoteThermostatOptions'
 import { ThermostatData } from './ThermostatData'
@@ -36,10 +36,11 @@ export async function getRemoteThermostatData(
     JSON.parse(result)
 
   // create an HMACAuthenticatedData from the received result
-  const ad = new HMACAuthenticatedData()
-  ad.nonce = resultObject.nonce
-  ad.payload = resultObject.payload
-  ad.hmac = resultObject.hmac
+  const ad = new HMACAuthenticatedPayload(
+    resultObject.payload,
+    resultObject.nonce,
+    resultObject.hmac
+  )
 
   // validate the hmac
   if (!ad.validate(options.hmacKey)) {

@@ -16,7 +16,7 @@
 // limitations under the License.
 
 import { Configuration } from './Configuration'
-import { HMACAuthenticatedData } from './HMACAuthenticatedData'
+import { HMACAuthenticatedPayload } from '@henningkerstan/hmac-authenticated-payload'
 import { httpPostJSON } from './httpPostJSON'
 import { ThermostatData } from './ThermostatData'
 import { ThermostatSetpoint } from './ThermostatSetpoint'
@@ -31,10 +31,7 @@ export async function updateRemoteThermostatSetpoint(
   thermostatSetpoint.setpoint = options.setpoint
 
   // enclose the ThermostatSetpoint in HMACAuthenticatedData
-  let ad = HMACAuthenticatedData.authenticate(
-    options.hmacKey,
-    thermostatSetpoint
-  )
+  let ad = HMACAuthenticatedPayload.create(options.hmacKey, thermostatSetpoint)
 
   // post the stringified data and wait for the response
   const result = await httpPostJSON({
@@ -50,10 +47,11 @@ export async function updateRemoteThermostatSetpoint(
     JSON.parse(result)
 
   // create an HMACAuthenticatedData from the received result
-  ad = new HMACAuthenticatedData()
-  ad.nonce = resultObject.nonce
-  ad.payload = resultObject.payload
-  ad.hmac = resultObject.hmac
+  ad = new HMACAuthenticatedPayload(
+    resultObject.payload,
+    resultObject.nonce,
+    resultObject.hmac
+  )
 
   // validate the hmac
   if (!ad.validate(options.hmacKey)) {
