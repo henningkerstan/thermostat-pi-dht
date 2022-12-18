@@ -365,6 +365,7 @@ export class Thermostat {
       sensorType: this.sensorType,
       actuatorPin: this.actuatorPin,
       setpoint: this.setpoint,
+      temperatureSummand: this.temperatureSummand,
     }
   }
 
@@ -373,6 +374,7 @@ export class Thermostat {
       name: this.name,
       setpoint: this.setpoint,
       timestamp: this.timestamp,
+      rawTemperature: this.rawTemperature,
       temperature: this.temperature,
       humidity: this.humidity,
       heatingIsOn: this.heatingIsOn,
