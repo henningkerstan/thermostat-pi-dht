@@ -149,7 +149,12 @@ export class Thermostat {
     return this._timestamp
   }
 
-  /** Temperature (in °C) measured in the latest measurement. */
+  /** Raw temperature (in °C) measured in the latest measurement. */
+  get rawTemperature(): number {
+    return this._rawTemperature
+  }
+
+  /** Temperature (in °C) measured in the latest measurement; possibly with correction summand applied. */
   get temperature(): number {
     return this._temperature
   }
@@ -273,7 +278,10 @@ export class Thermostat {
   /** UNIX timestamp (in milliseconds) of the latest measurement. */
   private _timestamp: number = undefined
 
-  /** Temperature (in °C) of the latest measurement. */
+  /** Raw temperature (in °C) of the latest measurement. */
+  private _rawTemperature: number = undefined
+
+  /** Temperature (in °C) of the latest measurement; possibly with correction summand applied. */
   private _temperature: number = undefined
 
   /** Relative humidity (in %) of the latest measurement. */
@@ -290,8 +298,8 @@ export class Thermostat {
     Thermostat.remainingMeasurements--
 
     this._timestamp = Date.now()
-    this._temperature =
-      Math.round(temperature * 10) / 10 + this.temperatureSummand
+    this._rawTemperature = Math.round(temperature * 10) / 10
+    this._temperature = this._rawTemperature + this.temperatureSummand
     this._humidity = Math.round(humidity)
 
     void this.check()

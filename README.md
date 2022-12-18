@@ -76,7 +76,7 @@ Once the package is installed, the standalone application `thermostat-pi-dht` re
   "thermostats": [
     { "name": "kitchen", "sensorPin": 24, "setpoint": 18 },
     { "name": "living-room", "sensorPin": 25, "actuatorPin": 11 },
-    { "name": "bedroom", "sensorPin": 13, "actuatorPin": 17 },
+    { "name": "bedroom", "sensorPin": 13, "actuatorPin": 17, "correctionSummand": -1.2 },
   ]
 }
 ```

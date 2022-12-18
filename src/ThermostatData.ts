@@ -22,8 +22,11 @@ export interface ThermostatData extends ThermostatSetpoint {
   /** UNIX timestamp (in milliseconds) of the latest measurement. */
   timestamp?: number
 
-  /** Temperature (in °C) measured in the latest measurement. */
+  /** Temperature (in °C) measured in the latest measurement; possibly with correction summand applied. */
   temperature?: number
+
+  /** Raw temperature (in °C) measured in the latest measurement. */
+  rawTemperature?: number
 
   /** Relative humidity (in %) measured in the latest measurement. */
   humidity?: number
