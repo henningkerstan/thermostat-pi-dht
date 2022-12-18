@@ -109,6 +109,10 @@ export class Thermostat {
       ? config.setpoint
       : Thermostat.defaultSetpoint
 
+    this.temperatureSummand = config.temperatureSummand
+      ? config.temperatureSummand
+      : 0
+
     if (config.actuatorPin) {
       this.actuator = new Gpio(config.actuatorPin, { mode: Gpio.OUTPUT })
       this.actuatorPin = config.actuatorPin
@@ -137,6 +141,9 @@ export class Thermostat {
   /** The sensor's type. Must be either 11 (DHT11) or 22 (DHT22/AM2302). */
   readonly sensorType: SensorType
 
+  /** A simple correction of the measured temperature by a fixed summand. */
+  readonly temperatureSummand: number
+
   /** UNIX timestamp (in milliseconds) of the latest measurement. */
   get timestamp(): number {
     return this._timestamp
@@ -152,7 +159,7 @@ export class Thermostat {
     return this._humidity
   }
 
-  /** Determines whether the heating is currently on.  */
+  /** Determines whether the heating is currently on. */
   get heatingIsOn(): boolean {
     return this._heatingIsOn
   }
@@ -283,7 +290,8 @@ export class Thermostat {
     Thermostat.remainingMeasurements--
 
     this._timestamp = Date.now()
-    this._temperature = Math.round(temperature * 10) / 10
+    this._temperature =
+      Math.round(temperature * 10) / 10 + this.temperatureSummand
     this._humidity = Math.round(humidity)
 
     void this.check()

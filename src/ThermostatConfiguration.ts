@@ -28,6 +28,9 @@ export interface ThermostatConfiguration extends ThermostatSetpoint {
   /** GPIO pin to which the actuator is connected. */
   actuatorPin?: number
 
+  /** A simple correction of the measured temperature by a fixed summand. */
+  temperatureSummand?: number
+
   /** Hysteresis (in °C). -- NOT YET IMPLEMENTED */
   //hysteresis?: number
 }
